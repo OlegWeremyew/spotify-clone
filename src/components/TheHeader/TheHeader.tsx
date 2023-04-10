@@ -6,7 +6,7 @@ export const TheHeader: FC = () => {
       className="bg-[#070707] flex-1 flex justify-between items-center py-[10px] px-[13px] sm:px-[32px] sticky top-0 z-10">
       <div className="flex">
         <a
-          href="#sidebar"
+          href="src/components/TheHeader/TheHeader#sidebar"
           className="mr-[8px] text-[#969696] p-1 -ml-1.5 inline-block lg:hidden"
         >
           <svg
@@ -24,7 +24,7 @@ export const TheHeader: FC = () => {
             />
           </svg>
         </a>
-        <a href="/" className="mr-[8px] text-[#969696] p-1 cursor-not-allowed">
+        <a href="/GitHub/spotify/public" className="mr-[8px] text-[#969696] p-1 cursor-not-allowed">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -40,7 +40,7 @@ export const TheHeader: FC = () => {
             />
           </svg>
         </a>
-        <a href="/" className="ml-[8px] text-[#969696] p-1 cursor-not-allowed">
+        <a href="/GitHub/spotify/public" className="ml-[8px] text-[#969696] p-1 cursor-not-allowed">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"

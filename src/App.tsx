@@ -1,10 +1,6 @@
-import TheSidebar from "./components/TheSidebar";
-import {TheSidebarOverlay} from "./components/TheSidebarOverlay";
-import {TheHeader} from "./components/TheHeader";
-import {TheMain} from "./components/TheMain";
-import {TheRegistration} from "./components/TheRegistration";
+import {TheHeader, TheMain, TheRegistration, TheSidebar, TheSidebarOverlay} from "./components";
 
-function App() {
+export function App() {
   return (
     <>
       <div className="flex flex-grow overflow-auto">
@@ -19,5 +15,3 @@ function App() {
     </>
   );
 }
-
-export default App;

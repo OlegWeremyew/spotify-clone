@@ -9,11 +9,11 @@ export const TheMain: FC = () => {
           <div className="flex flex-wrap justify-between items-end gap-x-6 mb-[18px]">
             <div>
               <h2 className="text-2xl font-semibold hover:underline capitalize">
-                <a href="/">Lorem ipsum dolor sit</a>
+                <a href="/GitHub/spotify/public">Lorem ipsum dolor sit</a>
               </h2>
             </div>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="uppercase text-xs font-semibold tracking-widest hover:underline text-[#b3b3b3] leading-6"
             >
               See all
@@ -22,7 +22,7 @@ export const TheMain: FC = () => {
           <div
             className="grid sm:grid-cols-playlists-mobile md:grid-cols-playlists-tablet lg:grid-cols-playlists-desktop gap-5">
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="relative p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group"
             >
               <div className="relative">
@@ -109,7 +109,7 @@ export const TheMain: FC = () => {
               </ul>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden sm:block"
             >
               <div className="relative">
@@ -145,7 +145,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden lg:block"
             >
               <div className="relative">
@@ -181,7 +181,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden xl:block"
             >
               <div className="relative">
@@ -217,7 +217,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 2xl:block"
             >
               <div className="relative">
@@ -253,7 +253,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 3xl:block"
             >
               <div className="relative">
@@ -289,7 +289,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 4xl:block"
             >
               <div className="relative">
@@ -325,7 +325,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 5xl:block"
             >
               <div className="relative">
@@ -361,7 +361,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 6xl:block"
             >
               <div className="relative">
@@ -402,14 +402,14 @@ export const TheMain: FC = () => {
           <div className="flex flex-wrap justify-between items-end gap-x-6 mb-[18px]">
             <div>
               <h2 className="text-2xl font-semibold hover:underline capitalize">
-                <a href="/">Lorem ipsum dolor</a>
+                <a href="/GitHub/spotify/public">Lorem ipsum dolor</a>
               </h2>
               <p className="text-sm text-[#b3b3b3]">
                 Lorem ipsum dolor sit amet.
               </p>
             </div>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="uppercase text-xs font-semibold tracking-widest hover:underline text-[#b3b3b3] leading-6"
             >
               See all
@@ -418,7 +418,7 @@ export const TheMain: FC = () => {
           <div
             className="grid sm:grid-cols-playlists-mobile md:grid-cols-playlists-tablet lg:grid-cols-playlists-desktop gap-5">
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="relative p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group"
             >
               <div className="relative">
@@ -505,7 +505,7 @@ export const TheMain: FC = () => {
               </ul>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden sm:block"
             >
               <div className="relative">
@@ -541,7 +541,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden lg:block"
             >
               <div className="relative">
@@ -577,7 +577,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden xl:block"
             >
               <div className="relative">
@@ -613,7 +613,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 2xl:block"
             >
               <div className="relative">
@@ -649,7 +649,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 3xl:block"
             >
               <div className="relative">
@@ -685,7 +685,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 4xl:block"
             >
               <div className="relative">
@@ -721,7 +721,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 5xl:block"
             >
               <div className="relative">
@@ -757,7 +757,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 6xl:block"
             >
               <div className="relative">
@@ -798,12 +798,12 @@ export const TheMain: FC = () => {
           <div className="flex flex-wrap justify-between items-end gap-x-6 mb-[18px]">
             <div>
               <h2 className="text-2xl font-semibold hover:underline capitalize">
-                <a href="/">Lorem ipsum</a>
+                <a href="/GitHub/spotify/public">Lorem ipsum</a>
               </h2>
               <p className="text-sm text-[#b3b3b3]">Lorem ipsum dolor sit.</p>
             </div>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="uppercase text-xs font-semibold tracking-widest hover:underline text-[#b3b3b3] leading-6"
             >
               See all
@@ -812,7 +812,7 @@ export const TheMain: FC = () => {
           <div
             className="grid sm:grid-cols-playlists-mobile md:grid-cols-playlists-tablet lg:grid-cols-playlists-desktop gap-5">
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="relative p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group"
             >
               <div className="relative">
@@ -899,7 +899,7 @@ export const TheMain: FC = () => {
               </ul>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden sm:block"
             >
               <div className="relative">
@@ -935,7 +935,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden lg:block"
             >
               <div className="relative">
@@ -971,7 +971,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden xl:block"
             >
               <div className="relative">
@@ -1007,7 +1007,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 2xl:block"
             >
               <div className="relative">
@@ -1043,7 +1043,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 3xl:block"
             >
               <div className="relative">
@@ -1079,7 +1079,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 4xl:block"
             >
               <div className="relative">
@@ -1115,7 +1115,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 5xl:block"
             >
               <div className="relative">
@@ -1151,7 +1151,7 @@ export const TheMain: FC = () => {
               </p>
             </a>
             <a
-              href="/"
+              href="/GitHub/spotify/public"
               className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden 6xl:block"
             >
               <div className="relative">

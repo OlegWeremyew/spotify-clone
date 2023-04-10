@@ -6,7 +6,7 @@ export const TheSidebar: FC = () => {
       id="sidebar"
       className="bg-black w-[256px] text-[#b2b2b2] overflow-hidden flex flex-col fixed lg:sticky top-0 z-30 h-screen lg:h-auto -translate-x-full target:translate-x-0 lg:translate-x-0 transition-transform peer"
     >
-      <a href="/" className="text-white inline-block my-6 px-6 w-full">
+      <a href="/GitHub/spotify/public" className="text-white inline-block my-6 px-6 w-full">
         <svg viewBox="0 0 1134 340" className="w-[130px]">
           <title>Spotify</title>
           <path
@@ -17,7 +17,7 @@ export const TheSidebar: FC = () => {
       </a>
       <nav>
         <a
-          href="/"
+          href="/GitHub/spotify/public"
           className="flex items-center text-white bg-[#282828] mx-2 px-4 py-2 rounded"
         >
           <svg
@@ -37,7 +37,7 @@ export const TheSidebar: FC = () => {
           <span className="ml-4 text-sm font-semibold">Home</span>
         </a>
         <a
-          href="/"
+          href="/GitHub/spotify/public"
           className="flex items-center hover:text-white mx-2 px-4 py-2 rounded duration-300"
         >
           <svg
@@ -57,7 +57,7 @@ export const TheSidebar: FC = () => {
           <span className="ml-4 text-sm font-semibold">Search</span>
         </a>
         <a
-          href="/"
+          href="/GitHub/spotify/public"
           className="flex items-center hover:text-white mx-2 px-4 py-2 rounded duration-300 mb-6"
         >
           <svg
@@ -77,7 +77,7 @@ export const TheSidebar: FC = () => {
           <span className="ml-4 text-sm font-semibold">Your Library</span>
         </a>
         <a
-          href="/"
+          href="/GitHub/spotify/public"
           className="flex items-center hover:text-white mx-2 px-4 py-2 rounded duration-300"
         >
           <svg
@@ -97,7 +97,7 @@ export const TheSidebar: FC = () => {
           <span className="ml-4 text-sm font-semibold">Create Playlist</span>
         </a>
         <a
-          href="/"
+          href="/GitHub/spotify/public"
           className="flex items-center hover:text-white mx-2 px-4 py-2 rounded duration-300"
         >
           <svg
@@ -120,12 +120,12 @@ export const TheSidebar: FC = () => {
       <footer className="mt-auto mb-8 ml-6">
         <ul>
           <li>
-            <a href="/" className="text-[11px] hover:underline py-2">
+            <a href="/GitHub/spotify/public" className="text-[11px] hover:underline py-2">
               Cookies
             </a>
           </li>
           <li>
-            <a href="/" className="text-[11px] hover:underline py-2">
+            <a href="/GitHub/spotify/public" className="text-[11px] hover:underline py-2">
               Privacy
             </a>
           </li>
