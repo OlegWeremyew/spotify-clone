@@ -727,6 +727,7 @@ export const TheMain: FC = () => {
                           strokeWidth="2"
                           d="M9 5l7 7-7 7"
                       />
+
                     </svg>
                   </button>
                 </div>
