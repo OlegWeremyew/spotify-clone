@@ -1,4 +1,4 @@
-import {FC, useState, MouseEvent, useRef, forwardRef, useEffect} from "react";
+import {FC, useState, MouseEvent, useRef, forwardRef, useLayoutEffect, useEffect} from "react";
 import {PlaylistCover} from "./PlaylistCover";
 import {PlaylistButtonPlay} from "./PlaylistButtonPlay";
 import {PlaylistTitle} from "./PlaylistTitle";
@@ -39,16 +39,17 @@ export interface IList {
   title: string
   description: string
   coverUrl: string
+  toggleScrolling: (isEnable: boolean) => void
 }
 
 export type ClickPositionType = {
-  x: null | number
-  y: null | number
+  x: number
+  y: number
 }
 
 const clickPosition: ClickPositionType = {
-  x: null,
-  y: null
+  x: 0,
+  y: 0
 }
 
 export const Playlist: FC<IList> = forwardRef((
@@ -57,6 +58,7 @@ export const Playlist: FC<IList> = forwardRef((
     coverUrl,
     title,
     description,
+    toggleScrolling,
   }
 ) => {
 
@@ -79,18 +81,66 @@ export const Playlist: FC<IList> = forwardRef((
     setIsContextMenuOpen(false);
   }
 
+  const updateContextMenuHorizontalPosition = (): void => {
+    if (!contextMenuRef.current) return
+
+    const menuWidth = contextMenuRef.current?.offsetWidth
+    const shouldMoveLeft = menuWidth > window.innerWidth - clickPosition.x
+
+    contextMenuRef.current.style.left = shouldMoveLeft
+      ? `${clickPosition.x - menuWidth}px`
+      : `${clickPosition.x}px`
+
+  }
+
+  const updateContextMenuVerticalPosition = (): void => {
+    if (!contextMenuRef.current) return
+
+    const menuHeight = contextMenuRef.current?.offsetHeight
+    const shouldMoveUp = menuHeight > window.innerHeight - clickPosition.y
+
+    contextMenuRef.current.style.top = shouldMoveUp
+      ? `${clickPosition.y - menuHeight}px`
+      : `${clickPosition.y}px`
+
+  }
+
   const updateContextMenuPosition = (): void => {
     if (contextMenuRef.current) {
-      contextMenuRef.current.style.top = `${clickPosition.y}px`
-      contextMenuRef.current.style.left = `${clickPosition.x}px`
+      updateContextMenuHorizontalPosition()
+      updateContextMenuVerticalPosition()
     }
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    toggleScrolling(!isContextMenuOpen)
+
     if (isContextMenuOpen) {
       updateContextMenuPosition()
     }
-  })
+  }, [isContextMenuOpen])
+
+  useEffect(() => {
+    if (!isContextMenuOpen) return
+
+    const handleClickAway = (event: any) => {
+
+      if (!contextMenuRef.current?.contains(event.target as Node)) {
+        closeContextMenu()
+      }
+    }
+
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeContextMenu()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickAway);
+    document.addEventListener('keydown', handleEsc);
+
+    return () => document.removeEventListener('mousedown', handleClickAway);
+  }, [isContextMenuOpen]);
 
   return (
     <a
@@ -111,7 +161,6 @@ export const Playlist: FC<IList> = forwardRef((
           ref={contextMenuRef}
           menuItems={menuItems}
           classes="fixed bg-[#282828] text-[#eaeaea] text-sm divide-y divide-[#3e3e3e] p-1 rounded shadow-xl cursor-default whitespace-nowrap z-10"
-          onClose={closeContextMenu}
         />
       )}
     </a>
