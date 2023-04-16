@@ -2,16 +2,17 @@ import {FC, useRef} from "react";
 import {ChevronRightIcon} from "@heroicons/react/outline";
 import {PlaylistContextMenu} from "../PlaylistContextMenu";
 import {SubMenuItem} from "../../types";
+import {Nullable} from "../../../../../types";
 
 export interface IMenuItem {
   children: string
-  subMenuItems?: SubMenuItem[] | null
+  subMenuItems?:  Nullable<SubMenuItem[]>
 }
 
 export const PlaylistContextMenuItem: FC<IMenuItem> = ({children: label, subMenuItems}) => {
 
   //mock error fix
-  const ref = useRef(null)
+  const ref = useRef<Nullable<HTMLUListElement>>(null)
 
   if (subMenuItems) {
     return (

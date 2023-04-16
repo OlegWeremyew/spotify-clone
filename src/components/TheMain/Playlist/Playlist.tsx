@@ -5,6 +5,7 @@ import {PlaylistTitle} from "./PlaylistTitle";
 import {PlaylistDescription} from "./PlaylistDescription";
 import {PlaylistContextMenu} from "./PlaylistContextMenu";
 import {SubMenuItem} from "./types";
+import {Nullable} from "../../../types";
 
 const menuItems: SubMenuItem[] = [
   {
@@ -64,7 +65,7 @@ export const Playlist: FC<IList> = forwardRef((
 
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
 
-  const contextMenuRef = useRef<HTMLUListElement | null>(null)
+  const contextMenuRef = useRef<Nullable<HTMLUListElement>>(null)
 
   const bgClasses = isContextMenuOpen ? 'bg-[#272727]' : 'bg-[#181818] hover:bg-[#272727]'
 
@@ -90,7 +91,6 @@ export const Playlist: FC<IList> = forwardRef((
     contextMenuRef.current.style.left = shouldMoveLeft
       ? `${clickPosition.x - menuWidth}px`
       : `${clickPosition.x}px`
-
   }
 
   const updateContextMenuVerticalPosition = (): void => {
@@ -102,14 +102,13 @@ export const Playlist: FC<IList> = forwardRef((
     contextMenuRef.current.style.top = shouldMoveUp
       ? `${clickPosition.y - menuHeight}px`
       : `${clickPosition.y}px`
-
   }
 
   const updateContextMenuPosition = (): void => {
-    if (contextMenuRef.current) {
-      updateContextMenuHorizontalPosition()
-      updateContextMenuVerticalPosition()
-    }
+    if (!contextMenuRef.current) return
+
+    updateContextMenuHorizontalPosition()
+    updateContextMenuVerticalPosition()
   }
 
   useLayoutEffect(() => {
