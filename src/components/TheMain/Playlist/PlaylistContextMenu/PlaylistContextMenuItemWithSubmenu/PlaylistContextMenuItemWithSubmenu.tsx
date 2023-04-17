@@ -17,7 +17,7 @@ export type MenuStateType = {
   positionClasses: PositionClassesType
 }
 
-export const PlaylistContextMenuItem: FC<IMenuItem> = ({children: label, subMenuItems = []}) => {
+export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItem> = ({children: label, subMenuItems = []}) => {
 
   const [menuState, setMenuState] = useState<MenuStateType>({
     isOpen: false,
@@ -88,38 +88,26 @@ export const PlaylistContextMenuItem: FC<IMenuItem> = ({children: label, subMenu
   //unmounting component
   useEffect(() => stopCloseMenuTimer)
 
-  if (subMenuItems) {
-    return (
-      <li
-        className="relative"
-        ref={menuItemRef}
-        onMouseEnter={openMenu}
-        onMouseLeave={startCloseMenuTimer}
-      >
-        <button
-          type="button"
-          className="w-full p-3 text-left hover:text-white hover:bg-[#3e3e3e] cursor-default flex justify-between items-center"
-        >
-          {label} <ChevronRightIcon className="h-4 w-4"/>
-        </button>
-        {menuState.isOpen && (
-          <PlaylistContextMenu
-            ref={ref}
-            menuItems={subMenuItems}
-            classes={`bg-[#282828] text-[#eaeaea] text-sm p-1 rounded shadow-xl cursor-default absolute ${menuState.positionClasses}`}
-          />
-        )}
-      </li>
-    );
-  }
-
   return (
-    <li>
+    <li
+      className="relative"
+      ref={menuItemRef}
+      onMouseEnter={openMenu}
+      onMouseLeave={startCloseMenuTimer}
+    >
       <button
         type="button"
-        className="w-full p-3 text-left hover:text-white hover:bg-[#3e3e3e] cursor-default">
-        {label}
+        className="w-full p-3 text-left hover:text-white hover:bg-[#3e3e3e] cursor-default flex justify-between items-center"
+      >
+        {label} <ChevronRightIcon className="h-4 w-4"/>
       </button>
+      {menuState.isOpen && (
+        <PlaylistContextMenu
+          ref={ref}
+          menuItems={subMenuItems}
+          classes={`bg-[#282828] text-[#eaeaea] text-sm p-1 rounded shadow-xl cursor-default absolute ${menuState.positionClasses}`}
+        />
+      )}
     </li>
   );
 }

@@ -3,7 +3,7 @@ import {PlaylistContextMenuItem} from "./PlaylistContextMenuItem";
 import {SubMenuItem} from "../types";
 
 export interface IContextMenu {
-  menuItems: SubMenuItem[]
+  menuItems: SubMenuItem[] | null
   classes: string
   ref: ForwardedRef<HTMLUListElement>
 }
@@ -16,7 +16,7 @@ export const PlaylistContextMenu: FC<IContextMenu> = forwardRef((
 
   return (
     <ul ref={ref} className={classes}>
-      {menuItems.map(({label, subMenuItems}: SubMenuItem) => (
+      {menuItems?.map(({label, subMenuItems}: SubMenuItem) => (
         <PlaylistContextMenuItem key={label} subMenuItems={subMenuItems}>
           {label}
         </PlaylistContextMenuItem>
