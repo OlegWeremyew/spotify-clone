@@ -4,7 +4,7 @@ import {PlaylistContextMenu} from "../PlaylistContextMenu";
 import {SubMenuItem} from "../../types";
 import {Nullable} from "../../../../../types";
 
-export interface IMenuItem {
+export interface IMenuItemWithSubmenu {
   children: string
   subMenuItems?: Nullable<SubMenuItem[]>
 }
@@ -17,7 +17,7 @@ export type MenuStateType = {
   positionClasses: PositionClassesType
 }
 
-export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItem> = ({children: label, subMenuItems = []}) => {
+export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = ({children: label, subMenuItems = []}) => {
 
   const [menuState, setMenuState] = useState<MenuStateType>({
     isOpen: false,
