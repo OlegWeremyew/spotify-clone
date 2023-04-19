@@ -18,6 +18,8 @@ const menuItems: SubMenuItem[] = [
       {
         label: 'Copy link to playlist',
         subMenuItems: null,
+        alternateLabel: 'Copy Spotify URI',
+        classes: 'min-w-[150px]',
       },
       {
         label: 'Embed playlist',
@@ -117,20 +119,20 @@ export const Playlist: FC<IList> = forwardRef((
     if (isContextMenuOpen) {
       updateContextMenuPosition()
     }
-  }, [isContextMenuOpen])
+  }, [isContextMenuOpen, toggleScrolling, updateContextMenuPosition])
 
   useEffect(() => {
     if (!isContextMenuOpen) return
 
-    const handleClickAway = (event: any) => {
+    const handleClickAway = ({target}: Event) => {
 
-      if (!contextMenuRef.current?.contains(event.target as Node)) {
+      if (!contextMenuRef.current?.contains(target as Node)) {
         closeContextMenu()
       }
     }
 
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+    const handleEsc = ({key}: KeyboardEvent) => {
+      if (key === "Escape") {
         closeContextMenu()
       }
     }
@@ -139,7 +141,7 @@ export const Playlist: FC<IList> = forwardRef((
     document.addEventListener('keydown', handleEsc);
 
     return () => document.removeEventListener('mousedown', handleClickAway);
-  }, [isContextMenuOpen]);
+  });
 
   return (
     <a

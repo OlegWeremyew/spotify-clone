@@ -16,21 +16,39 @@ export const PlaylistContextMenu: FC<IContextMenu> = forwardRef((
     menuItems,
   }, ref) => {
 
+  let closePreviousSubmenu: any = null;
+
+  function closePreviousSubmenuIfOpen(closeSubmenu = null) {
+    if (closePreviousSubmenu) {
+      closePreviousSubmenu();
+    }
+
+    closePreviousSubmenu = closeSubmenu;
+  }
+
   return (
     <ul ref={ref} className={classes}>
-      {menuItems?.map(({label, subMenuItems}: SubMenuItem) => {
+      {menuItems?.map(({label, subMenuItems, alternateLabel, classes}: SubMenuItem) => {
         return subMenuItems
           ? (
-            <PlaylistContextMenuItemWithSubmenu key={label} subMenuItems={subMenuItems}>
+            <PlaylistContextMenuItemWithSubmenu
+              key={label}
+              subMenuItems={subMenuItems}
+              onMouseEnter={closePreviousSubmenuIfOpen}
+            >
               {label}
             </PlaylistContextMenuItemWithSubmenu>
           ) : (
-            <PlaylistContextMenuItem key={label}>
+            <PlaylistContextMenuItem
+              key={label}
+              classes={classes}
+              alternateLabel={alternateLabel}
+              onMouseEnter={closePreviousSubmenuIfOpen}
+            >
               {label}
             </PlaylistContextMenuItem>
           )
-      })
-      }
+      })}
     </ul>
   );
 })

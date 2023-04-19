@@ -7,6 +7,7 @@ import {Nullable} from "../../../../../types";
 export interface IMenuItemWithSubmenu {
   children: string
   subMenuItems?: Nullable<SubMenuItem[]>
+  onMouseEnter: () => void
 }
 
 export type PositionXClassType = "left-full" | "right-full"
@@ -16,8 +17,14 @@ export type MenuStateType = {
   isOpen: boolean
   positionClasses: PositionClassesType
 }
+export type TimeoutType = ReturnType<typeof setTimeout> | undefined
 
-export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = ({children: label, subMenuItems = []}) => {
+export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = (
+  {
+    children: label,
+    subMenuItems = [],
+  }
+) => {
 
   const [menuState, setMenuState] = useState<MenuStateType>({
     isOpen: false,
@@ -26,7 +33,7 @@ export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = ({ch
   //mock error fix
   const ref = useRef<Nullable<HTMLUListElement>>(null)
   const menuItemRef = useRef<Nullable<HTMLLIElement>>(null)
-  let closeMenuTimer: any = null
+  const closeMenuTimer = useRef<TimeoutType>(undefined)
 
   const getMenuPositionXClass = (): PositionXClassType => {
     if (!menuItemRef.current) return "left-full"
@@ -57,11 +64,6 @@ export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = ({ch
   }
 
   const openMenu = (): void => {
-    if (closeMenuTimer) {
-      stopCloseMenuTimer()
-      return
-    }
-
     setMenuState({
       isOpen: true,
       positionClasses: getMenuPositionClasses()
@@ -76,13 +78,13 @@ export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = ({ch
   }
 
   const startCloseMenuTimer = (): void => {
-    closeMenuTimer = setTimeout(() => {
+    closeMenuTimer.current = setTimeout(() => {
       closeMenu()
     }, 150)
   }
 
   const stopCloseMenuTimer = (): void => {
-    clearTimeout(closeMenuTimer)
+    clearTimeout(closeMenuTimer.current)
   }
 
   //unmounting component
