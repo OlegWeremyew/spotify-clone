@@ -28,12 +28,13 @@ export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = (
 
   const [menuState, setMenuState] = useState<MenuStateType>({
     isOpen: false,
-    positionClasses: 'top-0 left-full'
+    positionClasses: 'top-0 left-full',
   })
-  //mock error fix
+
   const ref = useRef<Nullable<HTMLUListElement>>(null)
   const menuItemRef = useRef<Nullable<HTMLLIElement>>(null)
   const closeMenuTimer = useRef<TimeoutType>(undefined)
+  const bgClass = menuState.isOpen ? 'bg-[#3e3e3e]' : 'hover:bg-[#3e3e3e]'
 
   const getMenuPositionXClass = (): PositionXClassType => {
     if (!menuItemRef.current) return "left-full"
@@ -99,7 +100,7 @@ export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = (
     >
       <button
         type="button"
-        className="w-full p-3 text-left hover:text-white hover:bg-[#3e3e3e] cursor-default flex justify-between items-center"
+        className={`w-full p-3 text-left hover:text-white cursor-default flex justify-between items-center ${bgClass}`}
       >
         {label} <ChevronRightIcon className="h-4 w-4"/>
       </button>

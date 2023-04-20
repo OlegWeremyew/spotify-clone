@@ -1,41 +1,17 @@
-import {FC, useEffect, useState} from "react";
+import {FC} from "react";
 
 export interface IMenuItem {
   children: string
   onMouseEnter: () => void,
-  alternateLabel?: string
   classes?: string
 }
 
 export const PlaylistContextMenuItem: FC<IMenuItem> = (
   {
-    children: originalLabel,
+    children: label,
     onMouseEnter: closePreviousSubmenuIfOpen,
-    alternateLabel = '',
     classes = '',
   }) => {
-
-  const [label, setLabel] = useState<string>(originalLabel);
-
-  useEffect(() => {
-    if (!alternateLabel) return;
-
-    function handleAltKeydown({key}: KeyboardEvent) {
-      if (key === 'Alt') setLabel(alternateLabel);
-    }
-
-    function handleAltKeyup({key}: KeyboardEvent) {
-      if (key === 'Alt') setLabel(originalLabel);
-    }
-
-    document.addEventListener('keydown', handleAltKeydown);
-    document.addEventListener('keyup', handleAltKeyup);
-
-    return () => {
-      document.removeEventListener('keydown', handleAltKeydown);
-      document.removeEventListener('keyup', handleAltKeyup);
-    };
-  });
 
   return (
     <li onMouseEnter={() => closePreviousSubmenuIfOpen()}>

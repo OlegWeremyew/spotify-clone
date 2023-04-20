@@ -7,35 +7,36 @@ import {PlaylistContextMenu} from "./PlaylistContextMenu";
 import {SubMenuItem} from "./types";
 import {Nullable} from "../../../types";
 
-const menuItems: SubMenuItem[] = [
-  {
-    label: 'Add to Your Library',
-    subMenuItems: null,
-  },
-  {
-    label: 'Share',
-    subMenuItems: [
-      {
-        label: 'Copy link to playlist',
-        subMenuItems: null,
-        alternateLabel: 'Copy Spotify URI',
-        classes: 'min-w-[150px]',
-      },
-      {
-        label: 'Embed playlist',
-        subMenuItems: null,
-      },
-    ],
-  },
-  {
-    label: 'About recommendations',
-    subMenuItems: null,
-  },
-  {
-    label: 'Open in Desktop app',
-    subMenuItems: null,
-  },
-];
+const generateContentMenuItems = (isAlternate: boolean = false): SubMenuItem[] => {
+  return [
+    {
+      label: 'Add to Your Library',
+      subMenuItems: null,
+    },
+    {
+      label: 'Share',
+      subMenuItems: [
+        {
+          label: isAlternate ? 'Copy Spotify URI' : 'Copy link to playlist',
+          subMenuItems: null,
+          classes: 'min-w-[150px]',
+        },
+        {
+          label: 'Embed playlist',
+          subMenuItems: null,
+        },
+      ],
+    },
+    {
+      label: 'About recommendations',
+      subMenuItems: null,
+    },
+    {
+      label: 'Open in Desktop app',
+      subMenuItems: null,
+    },
+  ];
+}
 
 export interface IList {
   classes: string
@@ -66,6 +67,7 @@ export const Playlist: FC<IList> = forwardRef((
 ) => {
 
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
+  const [contextMenuItems, setContextMenuItems] = useState<SubMenuItem[]>(generateContentMenuItems())
 
   const contextMenuRef = useRef<Nullable<HTMLUListElement>>(null)
 
@@ -119,19 +121,19 @@ export const Playlist: FC<IList> = forwardRef((
     if (isContextMenuOpen) {
       updateContextMenuPosition()
     }
-  }, [isContextMenuOpen, toggleScrolling, updateContextMenuPosition])
+  })
 
   useEffect(() => {
     if (!isContextMenuOpen) return
 
-    const handleClickAway = ({target}: Event) => {
+    const handleClickAway = ({target}: Event): void => {
 
       if (!contextMenuRef.current?.contains(target as Node)) {
         closeContextMenu()
       }
     }
 
-    const handleEsc = ({key}: KeyboardEvent) => {
+    const handleEsc = ({key}: KeyboardEvent): void => {
       if (key === "Escape") {
         closeContextMenu()
       }
@@ -141,6 +143,25 @@ export const Playlist: FC<IList> = forwardRef((
     document.addEventListener('keydown', handleEsc);
 
     return () => document.removeEventListener('mousedown', handleClickAway);
+  });
+
+  useEffect(() => {
+
+    function handleAltKeydown({key}: KeyboardEvent): void {
+      if (key === 'Alt' && isContextMenuOpen) setContextMenuItems(generateContentMenuItems(true));
+    }
+
+    function handleAltKeyup({key}: KeyboardEvent): void {
+      if (key === 'Alt' && isContextMenuOpen) setContextMenuItems(generateContentMenuItems(false));
+    }
+
+    document.addEventListener('keydown', handleAltKeydown);
+    document.addEventListener('keyup', handleAltKeyup);
+
+    return () => {
+      document.removeEventListener('keydown', handleAltKeydown);
+      document.removeEventListener('keyup', handleAltKeyup);
+    };
   });
 
   return (
@@ -160,8 +181,8 @@ export const Playlist: FC<IList> = forwardRef((
       {isContextMenuOpen && (
         <PlaylistContextMenu
           ref={contextMenuRef}
-          menuItems={menuItems}
-          classes="fixed bg-[#282828] text-[#eaeaea] text-sm divide-y divide-[#3e3e3e] p-1 rounded shadow-xl cursor-default whitespace-nowrap z-10"
+          menuItems={contextMenuItems}
+          classes="fixed divide-y divide-[#3e3e3e]"
         />
       )}
     </a>

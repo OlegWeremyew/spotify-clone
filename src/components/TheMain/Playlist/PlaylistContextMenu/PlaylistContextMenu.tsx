@@ -1,4 +1,4 @@
-import {FC, ForwardedRef, forwardRef} from "react";
+import {FC, ForwardedRef, forwardRef, useRef} from "react";
 import {PlaylistContextMenuItem} from "./PlaylistContextMenuItem";
 import {SubMenuItem} from "../types";
 import {Nullable} from "../../../../types";
@@ -16,19 +16,22 @@ export const PlaylistContextMenu: FC<IContextMenu> = forwardRef((
     menuItems,
   }, ref) => {
 
-  let closePreviousSubmenu: any = null;
+  const closePreviousSubmenu = useRef<Nullable<Function>>(null);
 
-  function closePreviousSubmenuIfOpen(closeSubmenu = null) {
-    if (closePreviousSubmenu) {
-      closePreviousSubmenu();
+  const closePreviousSubmenuIfOpen = (closeSubmenu: Nullable<Function> = null): void => {
+    if (closePreviousSubmenu.current) {
+      closePreviousSubmenu.current();
     }
 
-    closePreviousSubmenu = closeSubmenu;
+    closePreviousSubmenu.current = closeSubmenu;
   }
 
   return (
-    <ul ref={ref} className={classes}>
-      {menuItems?.map(({label, subMenuItems, alternateLabel, classes}: SubMenuItem) => {
+    <ul
+      ref={ref}
+      className={`bg-[#282828] text-[#eaeaea] text-sm p-1 rounded cursor-default whitespace-nowrap z-10 shadow-3xl ${classes}`}
+    >
+      {menuItems?.map(({label, subMenuItems, classes: menuItemClasses}: SubMenuItem) => {
         return subMenuItems
           ? (
             <PlaylistContextMenuItemWithSubmenu
@@ -41,8 +44,7 @@ export const PlaylistContextMenu: FC<IContextMenu> = forwardRef((
           ) : (
             <PlaylistContextMenuItem
               key={label}
-              classes={classes}
-              alternateLabel={alternateLabel}
+              classes={menuItemClasses}
               onMouseEnter={closePreviousSubmenuIfOpen}
             >
               {label}
