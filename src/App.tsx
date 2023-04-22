@@ -1,25 +1,26 @@
 import {TheHeader, TheMain, TheRegistration, TheSidebar, TheSidebarOverlay} from "./components";
 import {useEffect, useRef, useState} from "react";
 
-export function App() {
+export const App = () => {
 
-  const contentWrapperRef = useRef<any | null>(null)
+  const contentWrapperRef = useRef<HTMLDivElement | null>(null)
   const [isScrollingEnabled, setIsScrollingEnabled] = useState<boolean>(true)
 
-  function handleScrolling(event: any) {
+  const toggleScrolling = (isEnable: boolean): void => {
+    setIsScrollingEnabled(isEnable)
+  }
+
+  const handleScrolling = (event: WheelEvent): void => {
     if (isScrollingEnabled) return
 
     event.preventDefault()
     event.stopPropagation()
   }
 
-  function toggleScrolling(isEnable: boolean) {
-    setIsScrollingEnabled(isEnable)
-  }
-
   useEffect(() => {
-    const contentWrapper = contentWrapperRef.current
+    if (!contentWrapperRef.current) return
 
+    const contentWrapper = contentWrapperRef.current
     contentWrapper.addEventListener('wheel', handleScrolling)
 
     return () => contentWrapper.removeEventListener('wheel', handleScrolling)

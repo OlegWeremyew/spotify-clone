@@ -1,13 +1,21 @@
-import {FC, useState, MouseEvent, useRef, forwardRef, useLayoutEffect, useEffect} from "react";
+import {FC, MouseEvent, forwardRef, useState, useEffect, useLayoutEffect} from "react";
 import {PlaylistCover} from "./PlaylistCover";
 import {PlaylistButtonPlay} from "./PlaylistButtonPlay";
 import {PlaylistTitle} from "./PlaylistTitle";
 import {PlaylistDescription} from "./PlaylistDescription";
 import {PlaylistContextMenu} from "./PlaylistContextMenu";
 import {SubMenuItem} from "./types";
-import {Nullable} from "../../../types";
+import {useContextMenu} from "../../../hooks";
 
-const generateContentMenuItems = (isAlternate: boolean = false): SubMenuItem[] => {
+export interface IList {
+  classes: string
+  title: string
+  description: string
+  coverUrl: string
+  toggleScrolling: (isEnable: boolean) => void
+}
+
+const generateMenuItems = (isAlternate: boolean = false): SubMenuItem[] => {
   return [
     {
       label: 'Add to Your Library',
@@ -38,24 +46,6 @@ const generateContentMenuItems = (isAlternate: boolean = false): SubMenuItem[] =
   ];
 }
 
-export interface IList {
-  classes: string
-  title: string
-  description: string
-  coverUrl: string
-  toggleScrolling: (isEnable: boolean) => void
-}
-
-export type ClickPositionType = {
-  x: number
-  y: number
-}
-
-const clickPosition: ClickPositionType = {
-  x: 0,
-  y: 0
-}
-
 export const Playlist: FC<IList> = forwardRef((
   {
     classes,
@@ -65,94 +55,29 @@ export const Playlist: FC<IList> = forwardRef((
     toggleScrolling,
   }
 ) => {
+  const {
+    openContextMenu: openMenu,
+    isContextMenuOpen: isMenuOpen,
+    contextMenuRef: menuRef
+  } = useContextMenu()
 
-  const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
-  const [contextMenuItems, setContextMenuItems] = useState<SubMenuItem[]>(generateContentMenuItems())
+  const [contextMenu, setContextMenu] = useState<SubMenuItem[]>(generateMenuItems())
 
-  const contextMenuRef = useRef<Nullable<HTMLUListElement>>(null)
+  const bgClasses = isMenuOpen
+    ? 'bg-[#272727]'
+    : 'bg-[#181818] hover:bg-[#272727]'
 
-  const bgClasses = isContextMenuOpen ? 'bg-[#272727]' : 'bg-[#181818] hover:bg-[#272727]'
-
-  const openContextMenu = (event: MouseEvent<HTMLAnchorElement>): void => {
-    event.preventDefault();
-
-    clickPosition.x = event.clientX
-    clickPosition.y = event.clientY
-
-    setIsContextMenuOpen(true);
-  }
-
-  const closeContextMenu = (): void => {
-    setIsContextMenuOpen(false);
-  }
-
-  const updateContextMenuHorizontalPosition = (): void => {
-    if (!contextMenuRef.current) return
-
-    const menuWidth = contextMenuRef.current?.offsetWidth
-    const shouldMoveLeft = menuWidth > window.innerWidth - clickPosition.x
-
-    contextMenuRef.current.style.left = shouldMoveLeft
-      ? `${clickPosition.x - menuWidth}px`
-      : `${clickPosition.x}px`
-  }
-
-  const updateContextMenuVerticalPosition = (): void => {
-    if (!contextMenuRef.current) return
-
-    const menuHeight = contextMenuRef.current?.offsetHeight
-    const shouldMoveUp = menuHeight > window.innerHeight - clickPosition.y
-
-    contextMenuRef.current.style.top = shouldMoveUp
-      ? `${clickPosition.y - menuHeight}px`
-      : `${clickPosition.y}px`
-  }
-
-  const updateContextMenuPosition = (): void => {
-    if (!contextMenuRef.current) return
-
-    updateContextMenuHorizontalPosition()
-    updateContextMenuVerticalPosition()
-  }
-
-  useLayoutEffect(() => {
-    toggleScrolling(!isContextMenuOpen)
-
-    if (isContextMenuOpen) {
-      updateContextMenuPosition()
-    }
-  })
+  useLayoutEffect(() => toggleScrolling(!isMenuOpen), [isMenuOpen])
 
   useEffect(() => {
-    if (!isContextMenuOpen) return
-
-    const handleClickAway = ({target}: Event): void => {
-
-      if (!contextMenuRef.current?.contains(target as Node)) {
-        closeContextMenu()
-      }
-    }
-
-    const handleEsc = ({key}: KeyboardEvent): void => {
-      if (key === "Escape") {
-        closeContextMenu()
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickAway);
-    document.addEventListener('keydown', handleEsc);
-
-    return () => document.removeEventListener('mousedown', handleClickAway);
-  });
-
-  useEffect(() => {
+    if (!isMenuOpen) return
 
     function handleAltKeydown({key}: KeyboardEvent): void {
-      if (key === 'Alt' && isContextMenuOpen) setContextMenuItems(generateContentMenuItems(true));
+      if (key === 'Alt') setContextMenu(generateMenuItems(true));
     }
 
     function handleAltKeyup({key}: KeyboardEvent): void {
-      if (key === 'Alt' && isContextMenuOpen) setContextMenuItems(generateContentMenuItems(false));
+      if (key === 'Alt') setContextMenu(generateMenuItems(false));
     }
 
     document.addEventListener('keydown', handleAltKeydown);
@@ -164,12 +89,13 @@ export const Playlist: FC<IList> = forwardRef((
     };
   });
 
+
   return (
     <a
       href="/"
       className={`relative p-4 rounded-md duration-200 group ${classes} ${bgClasses}`}
       onClick={(event: MouseEvent) => event.preventDefault()}
-      onContextMenu={openContextMenu}
+      onContextMenu={openMenu}
     >
       <div className="relative">
         <PlaylistCover url={coverUrl}/>
@@ -178,10 +104,10 @@ export const Playlist: FC<IList> = forwardRef((
       <PlaylistTitle title={title}/>
       <PlaylistDescription description={description}/>
 
-      {isContextMenuOpen && (
+      {isMenuOpen && (
         <PlaylistContextMenu
-          ref={contextMenuRef}
-          menuItems={contextMenuItems}
+          ref={menuRef}
+          menuItems={contextMenu}
           classes="fixed divide-y divide-[#3e3e3e]"
         />
       )}
