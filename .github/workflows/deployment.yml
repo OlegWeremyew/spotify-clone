@@ -1,0 +1,16 @@
+name: Build OnTrack
+on: push
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Get the repository code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
+#      - name: Test application
+#        run: npm run test
+      - name: Build application
+        run: npm run build
+      - name: Deploy
+        run: echo Deploying ...
