@@ -4,8 +4,7 @@ import {
   ChevronRightIcon,
   MenuIcon,
 } from '@heroicons/react/outline';
-import {TheButtonRegister} from "./TheButtonRegister";
-import {TheButtonLogin} from "./TheButtonLogin";
+import {BaseButton} from "../common";
 
 export const TheHeader: FC = () => {
   return (
@@ -26,8 +25,10 @@ export const TheHeader: FC = () => {
         </a>
       </div>
       <div>
-        <TheButtonRegister/>
-        <TheButtonLogin/>
+        <BaseButton classes="text-gray-400 hover:text-white">
+          Sign up
+        </BaseButton>
+        <BaseButton primary>Log in</BaseButton>
       </div>
     </header>
   );

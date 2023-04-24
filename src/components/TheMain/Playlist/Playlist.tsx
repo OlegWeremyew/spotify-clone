@@ -5,7 +5,7 @@ import {PlaylistTitle} from "./PlaylistTitle";
 import {PlaylistDescription} from "./PlaylistDescription";
 import {PlaylistContextMenu} from "./PlaylistContextMenu";
 import {SubMenuItem} from "./types";
-import {useContextMenu} from "../../../hooks";
+import {useMenu} from "../../../hooks/useMenu";
 
 export interface IList {
   classes: string
@@ -13,37 +13,7 @@ export interface IList {
   description: string
   coverUrl: string
   toggleScrolling: (isEnable: boolean) => void
-}
-
-const generateMenuItems = (isAlternate: boolean = false): SubMenuItem[] => {
-  return [
-    {
-      label: 'Add to Your Library',
-      subMenuItems: null,
-    },
-    {
-      label: 'Share',
-      subMenuItems: [
-        {
-          label: isAlternate ? 'Copy Spotify URI' : 'Copy link to playlist',
-          subMenuItems: null,
-          classes: 'min-w-[150px]',
-        },
-        {
-          label: 'Embed playlist',
-          subMenuItems: null,
-        },
-      ],
-    },
-    {
-      label: 'About recommendations',
-      subMenuItems: null,
-    },
-    {
-      label: 'Open in Desktop app',
-      subMenuItems: null,
-    },
-  ];
+  showToast: (message: string) => void
 }
 
 export const Playlist: FC<IList> = forwardRef((
@@ -53,31 +23,64 @@ export const Playlist: FC<IList> = forwardRef((
     title,
     description,
     toggleScrolling,
+    showToast
   }
 ) => {
-  const {
-    openContextMenu: openMenu,
-    isContextMenuOpen: isMenuOpen,
-    contextMenuRef: menuRef
-  } = useContextMenu()
+  const generateMenuItems = (isAlternate: boolean = false): SubMenuItem[] => {
+    return [
+      {
+        label: 'Add to Your Library',
+        subMenuItems: null,
+      },
+      {
+        label: 'Share',
+        subMenuItems: [
+          {
+            label: isAlternate ? 'Copy Spotify URI' : 'Copy link to playlist',
+            subMenuItems: null,
+            classes: 'min-w-[150px]',
+            action: () => {
+              navigator.clipboard.writeText(title).then(() => {
+                showToast('Link copy to clipboard')
+                menu.close()
+              })
+            }
+          },
+          {
+            label: 'Embed playlist',
+            subMenuItems: null,
+          },
+        ],
+      },
+      {
+        label: 'About recommendations',
+        subMenuItems: null,
+      },
+      {
+        label: 'Open in Desktop app',
+        subMenuItems: null,
+      },
+    ];
+  }
 
-  const [contextMenu, setContextMenu] = useState<SubMenuItem[]>(generateMenuItems())
+  const [menuItems, setMenuItems] = useState<SubMenuItem[]>(generateMenuItems)
+  const menu = useMenu(menuItems)
 
-  const bgClasses = isMenuOpen
+  const bgClasses = menu.isOpen
     ? 'bg-[#272727]'
     : 'bg-[#181818] hover:bg-[#272727]'
 
-  useLayoutEffect(() => toggleScrolling(!isMenuOpen), [isMenuOpen])
+  useLayoutEffect(() => toggleScrolling(!menu.isOpen), [menu.isOpen])
 
   useEffect(() => {
-    if (!isMenuOpen) return
+    if (!menu.isOpen) return
 
     function handleAltKeydown({key}: KeyboardEvent): void {
-      if (key === 'Alt') setContextMenu(generateMenuItems(true));
+      if (key === 'Alt') setMenuItems(generateMenuItems(true));
     }
 
     function handleAltKeyup({key}: KeyboardEvent): void {
-      if (key === 'Alt') setContextMenu(generateMenuItems(false));
+      if (key === 'Alt') setMenuItems(generateMenuItems(false));
     }
 
     document.addEventListener('keydown', handleAltKeydown);
@@ -95,7 +98,7 @@ export const Playlist: FC<IList> = forwardRef((
       href="/"
       className={`relative p-4 rounded-md duration-200 group ${classes} ${bgClasses}`}
       onClick={(event: MouseEvent) => event.preventDefault()}
-      onContextMenu={openMenu}
+      onContextMenu={menu.open}
     >
       <div className="relative">
         <PlaylistCover url={coverUrl}/>
@@ -104,13 +107,14 @@ export const Playlist: FC<IList> = forwardRef((
       <PlaylistTitle title={title}/>
       <PlaylistDescription description={description}/>
 
-      {isMenuOpen && (
+      {menu.isOpen && (
         <PlaylistContextMenu
-          ref={menuRef}
-          menuItems={contextMenu}
+          ref={menu.ref}
+          menuItems={menu.items}
           classes="fixed divide-y divide-[#3e3e3e]"
         />
       )}
     </a>
+
   );
 })

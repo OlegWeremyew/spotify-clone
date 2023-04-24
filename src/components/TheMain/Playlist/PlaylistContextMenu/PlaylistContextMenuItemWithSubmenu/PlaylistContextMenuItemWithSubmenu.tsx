@@ -1,8 +1,9 @@
-import {FC, useEffect, useRef, useState} from "react";
+import {FC, useRef} from "react";
 import {ChevronRightIcon} from "@heroicons/react/outline";
 import {PlaylistContextMenu} from "../PlaylistContextMenu";
 import {SubMenuItem} from "../../types";
 import {Nullable} from "../../../../../types";
+import {useSubmenu} from "../../../../../hooks/useSubmenu";
 
 export interface IMenuItemWithSubmenu {
   children: string
@@ -17,86 +18,27 @@ export type MenuStateType = {
   isOpen: boolean
   positionClasses: PositionClassesType
 }
-export type TimeoutType = ReturnType<typeof setTimeout> | undefined
 
 export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = (
   {
     children: label,
     subMenuItems = [],
+    onMouseEnter: closePreviousSubmenuIfOpen,
   }
 ) => {
+  const ref = useRef<Nullable<HTMLLIElement>>(null)
+  const refMock = useRef<Nullable<HTMLUListElement>>(null)
 
-  const [menuState, setMenuState] = useState<MenuStateType>({
-    isOpen: false,
-    positionClasses: 'top-0 left-full',
-  })
+  const submenu = useSubmenu(subMenuItems, closePreviousSubmenuIfOpen,  ref)
 
-  const ref = useRef<Nullable<HTMLUListElement>>(null)
-  const menuItemRef = useRef<Nullable<HTMLLIElement>>(null)
-  const closeMenuTimer = useRef<TimeoutType>(undefined)
-  const bgClass = menuState.isOpen ? 'bg-[#3e3e3e]' : 'hover:bg-[#3e3e3e]'
-
-  const getMenuPositionXClass = (): PositionXClassType => {
-    if (!menuItemRef.current) return "left-full"
-
-    const menuItem = menuItemRef.current
-    const menuItemWidth = menuItem.offsetWidth
-    const windowWidth = window.innerWidth
-    const menuItemRightCoordinateX = menuItem?.getBoundingClientRect().right
-    const shouldMoveLeft = menuItemWidth > windowWidth - menuItemRightCoordinateX
-
-    return shouldMoveLeft ? 'right-full' : "left-full"
-  }
-
-  const getMenuPositionYClass = (): PositionYClassType => {
-    if (!menuItemRef.current || !subMenuItems?.length) return "top-0"
-
-    const menuItem = menuItemRef.current
-    const menuHeight = menuItem?.offsetHeight * subMenuItems.length
-    const windowHeight = window.innerHeight
-    const menuItemBottomCoordinateY = menuItem?.getBoundingClientRect().top
-    const shouldMoveTUp = menuHeight > windowHeight - menuItemBottomCoordinateY
-
-    return shouldMoveTUp ? 'bottom-0' : "top-0"
-  }
-
-  const getMenuPositionClasses = (): PositionClassesType => {
-    return `${getMenuPositionYClass()} ${getMenuPositionXClass()}`
-  }
-
-  const openMenu = (): void => {
-    setMenuState({
-      isOpen: true,
-      positionClasses: getMenuPositionClasses()
-    })
-  }
-
-  const closeMenu = (): void => {
-    setMenuState({
-      ...menuState,
-      isOpen: false,
-    })
-  }
-
-  const startCloseMenuTimer = (): void => {
-    closeMenuTimer.current = setTimeout(() => {
-      closeMenu()
-    }, 150)
-  }
-
-  const stopCloseMenuTimer = (): void => {
-    clearTimeout(closeMenuTimer.current)
-  }
-
-  //unmounting component
-  useEffect(() => stopCloseMenuTimer)
+  const bgClass = submenu.isOpen ? 'bg-[#3e3e3e]' : 'hover:bg-[#3e3e3e]'
 
   return (
     <li
       className="relative"
-      ref={menuItemRef}
-      onMouseEnter={openMenu}
-      onMouseLeave={startCloseMenuTimer}
+      ref={ref}
+      onMouseEnter={submenu.open}
+      onMouseLeave={submenu.close}
     >
       <button
         type="button"
@@ -104,11 +46,11 @@ export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = (
       >
         {label} <ChevronRightIcon className="h-4 w-4"/>
       </button>
-      {menuState.isOpen && (
+      {submenu.isOpen && (
         <PlaylistContextMenu
-          ref={ref}
-          menuItems={subMenuItems}
-          classes={`bg-[#282828] text-[#eaeaea] text-sm p-1 rounded shadow-xl cursor-default absolute ${menuState.positionClasses}`}
+          ref={refMock}
+          menuItems={submenu.items}
+          classes={`bg-[#282828] text-[#eaeaea] text-sm p-1 rounded shadow-xl cursor-default absolute ${submenu.positionClasses}`}
         />
       )}
     </li>

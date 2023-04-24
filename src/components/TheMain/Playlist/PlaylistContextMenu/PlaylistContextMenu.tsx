@@ -31,7 +31,7 @@ export const PlaylistContextMenu: FC<IContextMenu> = forwardRef((
       ref={ref}
       className={`bg-[#282828] text-[#eaeaea] text-sm p-1 rounded cursor-default whitespace-nowrap z-10 shadow-3xl ${classes}`}
     >
-      {menuItems?.map(({label, subMenuItems, classes: menuItemClasses}: SubMenuItem) => {
+      {menuItems?.map(({label, subMenuItems, action, classes: menuItemClasses}: SubMenuItem) => {
         return subMenuItems
           ? (
             <PlaylistContextMenuItemWithSubmenu
@@ -46,6 +46,7 @@ export const PlaylistContextMenu: FC<IContextMenu> = forwardRef((
               key={label}
               classes={menuItemClasses}
               onMouseEnter={closePreviousSubmenuIfOpen}
+              onClick={action}
             >
               {label}
             </PlaylistContextMenuItem>
