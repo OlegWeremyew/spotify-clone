@@ -8,6 +8,7 @@ import {
 import {FC, ReactNode} from "react";
 import {NavItem} from "./NavItem/NavItem";
 import {Nullable} from "../../../types";
+import {MIN_DESKTOP_WIDTH} from "../../../constants";
 
 type NavItemType = {
   label: string,
@@ -25,7 +26,8 @@ export interface ITheNav {
   showPopover: (title: string, description: string, target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null) => void
 }
 
-const mock = () => {}
+const mock = () => {
+}
 
 export const TheNav: FC<ITheNav> = ({showPopover}) => {
 
@@ -73,9 +75,13 @@ export const TheNav: FC<ITheNav> = ({showPopover}) => {
       action: (target: Nullable<HTMLSpanElement>) => {
         if (!target) return
 
-        const LEFT_SHIFT = 125
-        const {top, right, height} = target.getBoundingClientRect()
-        const offset = {top: top - (height / 3) * 2, left: right + LEFT_SHIFT}
+        let offset: { top: number, left: number } | null = null
+
+        if (window.innerWidth >= MIN_DESKTOP_WIDTH) {
+          const LEFT_SHIFT = 125
+          const {top, right, height} = target.getBoundingClientRect()
+          offset = {top: top - (height / 3) * 2, left: right + LEFT_SHIFT}
+        }
 
         showPopover(
           'Enjoy your Liked Songs',

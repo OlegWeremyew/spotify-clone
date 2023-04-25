@@ -1,31 +1,42 @@
 import React, {FC, ForwardedRef, forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react';
 import {BaseButton} from "../BaseButton";
-import {Nullable} from "../../../types";
+import {Nullable, TimeoutType} from "../../../types";
+import {BasePopoverTriangle} from "../BasePopoverTriangle";
+import {debounce} from "../../../utils/debounce";
+import {MIN_DESKTOP_WIDTH} from "../../../constants";
 
 export interface IBasePopover {
   ref: ForwardedRef<{ show: (title: string, description: string, target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null) => void, }>
 }
 
-const HIDDEN_CLASSES = 'opacity-0 translate-x-1 pointer-events-none'
+const isCurrentWindowWidthSmall = (): boolean => window.innerWidth < MIN_DESKTOP_WIDTH
+const isCurrentWindowWidthBig = (): boolean => window.innerWidth >= MIN_DESKTOP_WIDTH
 
 export const BasePopover: FC<IBasePopover> = forwardRef((_, ref) => {
-  const [classes, setClasses] = useState<string>(HIDDEN_CLASSES);
+
+  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(isCurrentWindowWidthSmall)
+  const [classes, setClasses] = useState<string>(getHiddenClasses);
   const [title, setTitle] = useState<string>();
   const [description, setDescription] = useState<string>();
   const [target, setTarget] = useState<Nullable<HTMLSpanElement>>(null)
   const nodeRef = useRef<Nullable<HTMLDivElement>>(null);
+  let changeWidthTimer = useRef<TimeoutType>(undefined)
 
   useImperativeHandle(ref, () => ({
     show,
   }))
 
+  function getHiddenClasses(): string {
+    const translateClasses = isSmallScreen ? 'translate-y-1' : 'translate-x-1'
+    return `opacity-0 ${translateClasses} pointer-events-none`
+  }
+
   const show = (title: string, description: string, nextTarget: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null): void => {
 
-    if (target === nextTarget) {
-      return
-    }
+    if (target === nextTarget) return
 
-    moveTo(nextTarget, offset)
+    moveTo(offset ? offset : calculateTargetOffset(nextTarget))
+
     setClasses('');
     setTarget(nextTarget)
     setTitle(title);
@@ -34,39 +45,61 @@ export const BasePopover: FC<IBasePopover> = forwardRef((_, ref) => {
 
   const hide = (): void => {
     setTarget(null)
-    setClasses(HIDDEN_CLASSES);
+    setClasses(getHiddenClasses);
   }
 
-  const moveTo = (target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null): void => {
-    if (!nodeRef.current || !target) return
-
-    if (!offset) {
-      const {top, right, height} = target.getBoundingClientRect();
-
-      offset = {
-        top: top - (height / 3) * 2,
-        left: right + 30,
-      };
-    }
+  const moveTo = (offset: { top: number, left: number } | null): void => {
+    if (!nodeRef.current || !offset) return
 
     nodeRef.current.style.top = `${offset.top}px`;
     nodeRef.current.style.left = `${offset.left}px`;
   }
 
-  useEffect(() => {
-    if (!target) return
+  const calculateTargetOffset = (target: Nullable<HTMLSpanElement>): { top: number, left: number } | null => {
+    if (!target) return null
 
-    function handleClickAway(event: MouseEvent) {
-      if (target?.parentNode?.contains(event?.target as Node)) return
+    const {top, right, height, left} = target.getBoundingClientRect();
+
+    return {
+      top: isSmallScreen ? top + height * 2 : top - (height / 3) * 2,
+      left: isSmallScreen ? left : right + 30,
+    };
+  }
+
+  const screenHasBecomeSmall = (): boolean => isCurrentWindowWidthSmall() && !isSmallScreen
+  const screenHasBecomeBig = (): boolean => isCurrentWindowWidthBig() && isSmallScreen
+
+  useEffect(() => {
+
+    function handleResize(): void {
+      if (!screenHasBecomeSmall() && !screenHasBecomeBig()) return
+
+      hide()
+      clearTimeout(changeWidthTimer.current)
+
+      changeWidthTimer.current = setTimeout(() => {
+        setIsSmallScreen(isCurrentWindowWidthSmall)
+      }, 300)
+
+    }
+
+    function handleClickAway(event: MouseEvent): void {
+      if (target?.parentNode?.contains(event.target as Node)) return
 
       if (!nodeRef?.current?.contains(event.target as Node)) {
         hide()
       }
     }
 
-    document.addEventListener('mousedown', handleClickAway);
+    const debounceResize = debounce.bind(null, handleResize, 300)
 
-    return () => document.removeEventListener('mousedown', handleClickAway);
+    document.addEventListener('mousedown', handleClickAway);
+    window.addEventListener('resize', debounceResize);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickAway)
+      window.removeEventListener('resize', debounceResize)
+    };
   });
 
   return (
@@ -80,10 +113,8 @@ export const BasePopover: FC<IBasePopover> = forwardRef((_, ref) => {
         <BaseButton onClick={hide}>Not now</BaseButton>
         <BaseButton primary>Log in</BaseButton>
       </div>
-      <div
-        className="w-20 h-20 absolute -top-4 -left-20 flex justify-end items-center overflow-hidden pointer-events-none">
-        <div className="w-3 h-3 bg-[#0e72ea] translate-x-1/2 rotate-45 shadow-3xl pointer-events-auto"></div>
-      </div>
+
+      <BasePopoverTriangle side={isSmallScreen ? 'top' : 'left'}/>
     </div>
   );
 });
