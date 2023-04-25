@@ -8,7 +8,8 @@ export const App = () => {
   const [isScrollingEnabled, setIsScrollingEnabled] = useState<boolean>(true)
 
   const contentWrapperRef = useRef<HTMLDivElement | null>(null)
-  const toastRef = useRef<Nullable<any>>(null)
+  const toastRef = useRef<Nullable<{ show: (message: string) => void, }>>(null)
+  const popoverRef = useRef<Nullable<{ show: (title: string, description: string, target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null) => void, }>>(null)
 
   const toggleScrolling = (isEnable: boolean): void => {
     setIsScrollingEnabled(isEnable)
@@ -21,12 +22,22 @@ export const App = () => {
     event.stopPropagation()
   }
 
+  function showPopover(
+    title: string,
+    description: string,
+    target: Nullable<HTMLSpanElement>,
+    offset: { top: number, left: number } | null
+  ): void {
+    if (!popoverRef.current) return
+
+    popoverRef.current.show(title, description, target, offset)
+  }
+
   function showToast(message: string): void {
     if (!toastRef.current) return
 
     toastRef.current.show(message)
   }
-
 
   useEffect(() => {
     if (!contentWrapperRef.current) return
@@ -40,20 +51,23 @@ export const App = () => {
   return (
     <>
       <div className="flex grow overflow-auto">
-        <TheSidebar/>
+        <TheSidebar showPopover={showPopover}/>
         <TheSidebarOverlay/>
         <div
           ref={contentWrapperRef}
           className="flex-1 overflow-auto"
         >
           <TheHeader/>
-          <TheMain toggleScrolling={toggleScrolling} showToast={showToast}/>
+          <TheMain
+            toggleScrolling={toggleScrolling}
+            showToast={showToast}
+          />
         </div>
       </div>
       <TheRegistration/>
 
       <BaseToast ref={toastRef}/>
-      <BasePopover/>
+      <BasePopover ref={popoverRef}/>
     </>
   );
 }

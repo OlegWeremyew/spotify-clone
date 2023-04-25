@@ -1,11 +1,11 @@
 import {FC, MouseEvent, forwardRef, useState, useEffect, useLayoutEffect} from "react";
+import {useMenu} from "../../../hooks/useMenu";
 import {PlaylistCover} from "./PlaylistCover";
 import {PlaylistButtonPlay} from "./PlaylistButtonPlay";
 import {PlaylistTitle} from "./PlaylistTitle";
 import {PlaylistDescription} from "./PlaylistDescription";
 import {PlaylistContextMenu} from "./PlaylistContextMenu";
 import {SubMenuItem} from "./types";
-import {useMenu} from "../../../hooks/useMenu";
 
 export interface IList {
   classes: string
@@ -23,7 +23,7 @@ export const Playlist: FC<IList> = forwardRef((
     title,
     description,
     toggleScrolling,
-    showToast
+    showToast,
   }
 ) => {
   const generateMenuItems = (isAlternate: boolean = false): SubMenuItem[] => {
@@ -31,6 +31,10 @@ export const Playlist: FC<IList> = forwardRef((
       {
         label: 'Add to Your Library',
         subMenuItems: null,
+        action: () => {
+          menu.close()
+          document.querySelector<HTMLAnchorElement>('nav a:nth-child(4)')?.click();
+        },
       },
       {
         label: 'Share',

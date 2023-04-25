@@ -1,9 +1,9 @@
 import {FC, useRef} from "react";
+import {useSubmenu} from "../../../../../hooks/useSubmenu";
 import {ChevronRightIcon} from "@heroicons/react/outline";
 import {PlaylistContextMenu} from "../PlaylistContextMenu";
 import {SubMenuItem} from "../../types";
 import {Nullable} from "../../../../../types";
-import {useSubmenu} from "../../../../../hooks/useSubmenu";
 
 export interface IMenuItemWithSubmenu {
   children: string

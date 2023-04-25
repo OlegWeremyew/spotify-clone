@@ -12,7 +12,7 @@ export const BaseToast: FC<IBaseToast> = forwardRef((props, ref) => {
   const hideTimer = useRef<TimeoutType>(undefined)
 
   useImperativeHandle(ref, () => ({
-    show: (message: string) => {
+    show: (message: string): void => {
       clearTimeout(hideTimer.current)
       setOpacityClass('opacity-1')
 

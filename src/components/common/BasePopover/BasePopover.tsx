@@ -1,18 +1,65 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, ForwardedRef, forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react';
 import {BaseButton} from "../BaseButton";
 import {Nullable} from "../../../types";
 
-export const BasePopover: FC<any> = () => {
-  const [classes, setClasses] = useState<string>('');
-  const ref = useRef<Nullable<HTMLDivElement>>(null);
+export interface IBasePopover {
+  ref: ForwardedRef<{ show: (title: string, description: string, target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null) => void, }>
+}
+
+const HIDDEN_CLASSES = 'opacity-0 translate-x-1 pointer-events-none'
+
+export const BasePopover: FC<IBasePopover> = forwardRef((_, ref) => {
+  const [classes, setClasses] = useState<string>(HIDDEN_CLASSES);
+  const [title, setTitle] = useState<string>();
+  const [description, setDescription] = useState<string>();
+  const [target, setTarget] = useState<Nullable<HTMLSpanElement>>(null)
+  const nodeRef = useRef<Nullable<HTMLDivElement>>(null);
+
+  useImperativeHandle(ref, () => ({
+    show,
+  }))
+
+  const show = (title: string, description: string, nextTarget: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null): void => {
+
+    if (target === nextTarget) {
+      return
+    }
+
+    moveTo(nextTarget, offset)
+    setClasses('');
+    setTarget(nextTarget)
+    setTitle(title);
+    setDescription(description);
+  }
 
   const hide = (): void => {
-    setClasses('opacity-0 pointer-events-none');
+    setTarget(null)
+    setClasses(HIDDEN_CLASSES);
+  }
+
+  const moveTo = (target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null): void => {
+    if (!nodeRef.current || !target) return
+
+    if (!offset) {
+      const {top, right, height} = target.getBoundingClientRect();
+
+      offset = {
+        top: top - (height / 3) * 2,
+        left: right + 30,
+      };
+    }
+
+    nodeRef.current.style.top = `${offset.top}px`;
+    nodeRef.current.style.left = `${offset.left}px`;
   }
 
   useEffect(() => {
-    function handleClickAway({target}: MouseEvent) {
-      if (!ref?.current?.contains(target as Node)) {
+    if (!target) return
+
+    function handleClickAway(event: MouseEvent) {
+      if (target?.parentNode?.contains(event?.target as Node)) return
+
+      if (!nodeRef?.current?.contains(event.target as Node)) {
         hide()
       }
     }
@@ -24,11 +71,11 @@ export const BasePopover: FC<any> = () => {
 
   return (
     <div
-      className={`fixed top-[227px] left-[215px] z-30 bg-[#0e72ea] text-white tracking-wide rounded-lg shadow-3xl p-4 min-w-[330px] select-none transition duration-300 ${classes}`}
-      ref={ref}
+      className={`fixed z-30 bg-[#0e72ea] text-white tracking-wide rounded-lg shadow-3xl p-4 w-[330px] select-none transition duration-300 ${classes}`}
+      ref={nodeRef}
     >
-      <h3 className="text-lg font-bold mb-2">Create a playlist</h3>
-      <p className="text-xs">Log in to create and share playlists.</p>
+      <h3 className="text-lg font-bold mb-2">{title}</h3>
+      <p className="text-xs">{description}</p>
       <div className="mt-6 text-right">
         <BaseButton onClick={hide}>Not now</BaseButton>
         <BaseButton primary>Log in</BaseButton>
@@ -39,4 +86,4 @@ export const BasePopover: FC<any> = () => {
       </div>
     </div>
   );
-};
+});
