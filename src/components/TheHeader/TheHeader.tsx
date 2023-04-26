@@ -2,8 +2,8 @@ import {FC} from "react";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
-  MenuIcon,
-} from '@heroicons/react/outline';
+  Bars3Icon,
+} from '@heroicons/react/24/outline'
 import {BaseButton} from "../common";
 
 export const TheHeader: FC = () => {
@@ -15,7 +15,7 @@ export const TheHeader: FC = () => {
           href="#sidebar"
           className="mr-[8px] text-[#969696] p-1 -ml-1.5 inline-block lg:hidden"
         >
-          <MenuIcon className="h-6 w-6"/>
+          <Bars3Icon className="h-6 w-6"/>
         </a>
         <a href="/" className="mr-[8px] text-[#969696] p-1 cursor-not-allowed">
           <ChevronLeftIcon className="h-6 w-6"/>

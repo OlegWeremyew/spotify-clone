@@ -1,6 +1,6 @@
 import {FC, useRef} from "react";
 import {useSubmenu} from "../../../../../hooks/useSubmenu";
-import {ChevronRightIcon} from "@heroicons/react/outline";
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import {PlaylistContextMenu} from "../PlaylistContextMenu";
 import {SubMenuItem} from "../../types";
 import {Nullable} from "../../../../../types";

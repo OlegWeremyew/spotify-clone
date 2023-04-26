@@ -1,4 +1,4 @@
-import {ChevronRightIcon} from '@heroicons/react/outline';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import {FC} from "react";
 
 export const PlaylistButtonPlay: FC<any> = () => {

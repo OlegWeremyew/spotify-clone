@@ -1,6 +1,5 @@
 import React, {FC} from "react";
 import {Playlist} from "./Playlist";
-import {Nullable} from "../../types";
 
 export type PlaylistsType = {
   classes: string,
@@ -69,9 +68,10 @@ export const playlists: PlaylistsType[] = [
 export interface IMain {
   toggleScrolling: (isEnable: boolean) => void
   showToast: (message: string) => void
+  openModal: () => void
 }
 
-export const TheMain: FC<IMain> = ({toggleScrolling, showToast}) => {
+export const TheMain: FC<IMain> = ({toggleScrolling, showToast, openModal}) => {
   return (
     <main className="text-white relative">
       <div className="h-[275px] bg-gradient-to-b from-[#1f1f1f] to-[#121212] absolute w-full"></div>
@@ -98,6 +98,7 @@ export const TheMain: FC<IMain> = ({toggleScrolling, showToast}) => {
                 {...playlist}
                 toggleScrolling={toggleScrolling}
                 showToast={showToast}
+                openModal={openModal}
               />
             ))}
           </div>

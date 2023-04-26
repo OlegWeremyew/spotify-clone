@@ -14,6 +14,7 @@ export interface IList {
   coverUrl: string
   toggleScrolling: (isEnable: boolean) => void
   showToast: (message: string) => void
+  openModal: () => void
 }
 
 export const Playlist: FC<IList> = forwardRef((
@@ -24,6 +25,7 @@ export const Playlist: FC<IList> = forwardRef((
     description,
     toggleScrolling,
     showToast,
+    openModal
   }
 ) => {
   const generateMenuItems = (isAlternate: boolean = false): SubMenuItem[] => {
@@ -59,6 +61,10 @@ export const Playlist: FC<IList> = forwardRef((
       {
         label: 'About recommendations',
         subMenuItems: null,
+        action: () => {
+          menu.close();
+          openModal();
+        },
       },
       {
         label: 'Open in Desktop app',

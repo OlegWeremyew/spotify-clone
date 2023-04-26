@@ -2,10 +2,12 @@ import {TheHeader, TheMain, TheRegistration, TheSidebar, TheSidebarOverlay} from
 import {useEffect, useRef, useState} from "react";
 import {BasePopover, BaseToast} from "./components/common";
 import {Nullable} from "./types";
+import {BaseModal} from "./components/common/BaseModal";
 
 export const App = () => {
 
   const [isScrollingEnabled, setIsScrollingEnabled] = useState<boolean>(true)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>();
 
   const contentWrapperRef = useRef<HTMLDivElement | null>(null)
   const toastRef = useRef<Nullable<{ show: (message: string) => void, }>>(null)
@@ -20,6 +22,14 @@ export const App = () => {
 
     event.preventDefault()
     event.stopPropagation()
+  }
+
+  function openModal():void {
+    setIsModalOpen(true);
+  }
+
+  function closeModal():void {
+    setIsModalOpen(false);
   }
 
   function showPopover(
@@ -61,6 +71,7 @@ export const App = () => {
           <TheMain
             toggleScrolling={toggleScrolling}
             showToast={showToast}
+            openModal={openModal}
           />
         </div>
       </div>
@@ -68,6 +79,8 @@ export const App = () => {
 
       <BaseToast ref={toastRef}/>
       <BasePopover ref={popoverRef}/>
+
+      {isModalOpen && <BaseModal onClose={closeModal} />}
     </>
   );
 }

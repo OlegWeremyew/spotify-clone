@@ -3,6 +3,7 @@ import {Nullable} from "../../types";
 import {ReturnUseContextMenuType} from "./types";
 import {usePosition} from "../usePosition";
 import {SubMenuItem} from "../../components/TheMain/Playlist/types";
+import {useClickAway} from "../useClickAway/useClickAway";
 
 export const useMenu = (items: SubMenuItem[]): ReturnUseContextMenuType => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -22,15 +23,10 @@ export const useMenu = (items: SubMenuItem[]): ReturnUseContextMenuType => {
     setIsOpen(false);
   }
 
+  useClickAway(ref, close, () => isOpen)
+
   useEffect(() => {
     if (!isOpen) return
-
-    const handleClickAway = ({target}: UIEvent): void => {
-
-      if (!ref.current?.contains(target as Node)) {
-        close()
-      }
-    }
 
     const handleEsc = ({key}: KeyboardEvent): void => {
       if (key === "Escape") {
@@ -38,10 +34,9 @@ export const useMenu = (items: SubMenuItem[]): ReturnUseContextMenuType => {
       }
     }
 
-    document.addEventListener('mousedown', handleClickAway);
     document.addEventListener('keydown', handleEsc);
 
-    return () => document.removeEventListener('mousedown', handleClickAway);
+    return () => document.removeEventListener('keydown', handleEsc);
   });
 
   return {open, isOpen, ref, items, close}
