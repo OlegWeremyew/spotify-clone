@@ -1,10 +1,5 @@
 import {useState} from "react";
-
-export type ReturnType = {
-  open: () => void
-  close: () => void
-  isOpen: boolean
-}
+import {ReturnType} from "./types";
 
 export const useModal = (): ReturnType => {
 

@@ -1,15 +1,9 @@
-import {Nullable, TimeoutType} from "../../types";
+import {Nullable, OffsetType, TimeoutType} from "../../types";
 import {RefObject, useRef, useState} from "react";
 import {MIN_DESKTOP_WIDTH} from "../../constants";
 import {debounce} from "../../utils/debounce";
 import {useEvent} from "../useEvent/useEvent";
-
-type ReturnType = {
-  move: (target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null) => void
-  target: Nullable<HTMLSpanElement>
-  setTarget: (target: Nullable<HTMLSpanElement>) => void
-  isSmallScreen: boolean
-}
+import {ReturnType} from "./types";
 
 const isCurrentWindowWidthSmall = (): boolean => window.innerWidth < MIN_DESKTOP_WIDTH
 const isCurrentWindowWidthBig = (): boolean => window.innerWidth >= MIN_DESKTOP_WIDTH
@@ -39,7 +33,7 @@ export const usePopoverPosition = (ref: Nullable<RefObject<HTMLDivElement>>, scr
 
   useEvent('resize', debounceResize, true, window)
 
-  const calculateTargetOffset = (target: Nullable<HTMLSpanElement>): { top: number, left: number } | null => {
+  const calculateTargetOffset = (target: Nullable<HTMLSpanElement>): OffsetType => {
     if (!target) return null
 
     const {top, right, height, left} = target.getBoundingClientRect();
@@ -50,7 +44,7 @@ export const usePopoverPosition = (ref: Nullable<RefObject<HTMLDivElement>>, scr
     };
   }
 
-  const move = (target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null): void => {
+  const move = (target: Nullable<HTMLSpanElement>, offset: OffsetType): void => {
     if (!ref?.current) return
     offset = offset || calculateTargetOffset(target);
 

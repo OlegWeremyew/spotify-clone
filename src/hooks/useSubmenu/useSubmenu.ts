@@ -1,20 +1,13 @@
+import {SubMenuItem} from "../../components/TheMain/Playlist/types";
+import {Nullable, TimeoutType} from "../../types";
+import {MutableRefObject, useEffect, useRef, useState} from "react";
 import {
   MenuStateType,
   PositionClassesType,
   PositionXClassType,
   PositionYClassType,
-} from "../../components/TheMain/Playlist/PlaylistContextMenu/PlaylistContextMenuItemWithSubmenu";
-import {SubMenuItem} from "../../components/TheMain/Playlist/types";
-import {Nullable, TimeoutType} from "../../types";
-import {MutableRefObject, useEffect, useRef, useState} from "react";
-
-export type ReturnUseSubmenuType = {
-  isOpen: boolean
-  positionClasses: PositionClassesType
-  items: Nullable<SubMenuItem[]>
-  open: () => void
-  close: () => void
-}
+  ReturnUseSubmenuType
+} from "./types";
 
 export const useSubmenu = (
   items: Nullable<SubMenuItem[]>,

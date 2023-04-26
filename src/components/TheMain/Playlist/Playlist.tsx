@@ -5,20 +5,11 @@ import {PlaylistButtonPlay} from "./PlaylistButtonPlay";
 import {PlaylistTitle} from "./PlaylistTitle";
 import {PlaylistDescription} from "./PlaylistDescription";
 import {PlaylistContextMenu} from "./PlaylistContextMenu";
-import {SubMenuItem} from "./types";
+import {IList, SubMenuItem} from "./types";
 import {useEvent} from "../../../hooks/useEvent/useEvent";
 import {TheModalRecommendations} from "../../TheModalRecommendations";
 import {useModal} from "../../../hooks/useModal/useModal";
 import {TheModalEmbedPlaylist} from "../../TheModalEmbedPlaylist";
-
-export interface IList {
-  classes: string
-  title: string
-  description: string
-  coverUrl: string
-  toggleScrolling: (isEnable: boolean) => void
-  showToast: (message: string) => void
-}
 
 export const Playlist: FC<IList> = forwardRef((
   {

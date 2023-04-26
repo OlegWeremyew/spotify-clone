@@ -1,14 +1,9 @@
 import {XMarkIcon} from '@heroicons/react/24/outline';
-import {FC, useEffect, useRef, MouseEvent, ReactElement, ReactNode} from "react";
+import {FC, useEffect, useRef, MouseEvent, ReactElement} from "react";
 import {Nullable} from "../../../types";
 import {useEvent} from "../../../hooks/useEvent/useEvent";
 import ReactDOM from "react-dom";
-
-export interface IBaseModal {
-  onClose: () => void
-  children : ReactNode
-  classes: string
-}
+import {IBaseModal} from "./types";
 
 export const BaseModal: FC<IBaseModal> = ({onClose: handleClose, children, classes}): ReactElement => {
 

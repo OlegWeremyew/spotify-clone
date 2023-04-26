@@ -1,7 +1,7 @@
 import {TheHeader, TheMain, TheRegistration, TheSidebar, TheSidebarOverlay} from "./components";
 import {useRef, useState} from "react";
 import {BasePopover, BaseToast} from "./components/common";
-import {Nullable} from "./types";
+import {Nullable, OffsetType} from "./types";
 import {useEvent} from "./hooks/useEvent/useEvent";
 
 export const App = () => {
@@ -10,7 +10,14 @@ export const App = () => {
 
   const contentWrapperRef = useRef<Nullable<HTMLDivElement>>(null)
   const toastRef = useRef<Nullable<{ show: (message: string) => void, }>>(null)
-  const popoverRef = useRef<Nullable<{ show: (title: string, description: string, target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null) => void, }>>(null)
+  const popoverRef = useRef<Nullable<{
+    show: (
+      title: string,
+      description: string,
+      target: Nullable<HTMLSpanElement>,
+      offset: OffsetType,
+    ) => void,
+  }>>(null)
 
   useEvent('wheel', handleScrolling, true, contentWrapperRef.current)
 
@@ -29,7 +36,7 @@ export const App = () => {
     title: string,
     description: string,
     target: Nullable<HTMLSpanElement>,
-    offset: { top: number, left: number } | null
+    offset: OffsetType
   ): void {
     if (!popoverRef.current) return
 

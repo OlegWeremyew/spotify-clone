@@ -5,29 +5,16 @@ import {
   PlusCircleIcon,
   HeartIcon,
 } from '@heroicons/react/24/outline';
-import {FC, ReactNode} from "react";
-import {NavItem} from "./NavItem/NavItem";
+import {FC} from "react";
+import {NavItem} from "./NavItem";
 import {Nullable} from "../../../types";
-import {MIN_DESKTOP_WIDTH} from "../../../constants";
-
-type NavItemType = {
-  label: string,
-  classes: string,
-  icon: ReactNode,
-  action?: (target: Nullable<HTMLSpanElement>) => void
-}
+import {MIN_DESKTOP_WIDTH, MOCK_DEFAULT_FUNCTION} from "../../../constants";
+import {ITheNav, NavItemType} from "./types";
 
 const activeNavItemClasses =
   'flex items-center text-white bg-[#282828] mx-2 px-4 py-2 rounded';
 const navItemClasses =
   'flex items-center hover:text-white mx-2 px-4 py-2 rounded duration-300';
-
-export interface ITheNav {
-  showPopover: (title: string, description: string, target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null) => void
-}
-
-const mock = () => {
-}
 
 export const TheNav: FC<ITheNav> = ({showPopover}) => {
 
@@ -95,7 +82,7 @@ export const TheNav: FC<ITheNav> = ({showPopover}) => {
 
   return (
     <nav>
-      {navItems.map(({label, classes, icon, action = mock}: NavItemType) => (
+      {navItems.map(({label, classes, icon, action = MOCK_DEFAULT_FUNCTION}: NavItemType) => (
         <NavItem
           key={label}
           classes={classes}

@@ -1,8 +1,5 @@
 import {FC} from "react";
-
-export interface ITriangle {
-  side: 'top' | 'left'
-}
+import {ITriangle} from "./types";
 
 export const BasePopoverTriangle: FC<ITriangle> = ({side}) => {
   if (side === 'top') {

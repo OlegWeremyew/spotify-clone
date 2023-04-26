@@ -4,10 +4,7 @@ import {Nullable} from "../../../types";
 import {BasePopoverTriangle} from "../BasePopoverTriangle";
 import {usePopoverPosition} from "../../../hooks/usePopoverPosition/usePopoverPosition";
 import {useClickAway} from "../../../hooks/useClickAway/useClickAway";
-
-export interface IBasePopover {
-  ref: ForwardedRef<{ show: (title: string, description: string, target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null) => void, }>
-}
+import {IBasePopover} from "./types";
 
 export const BasePopover: FC<IBasePopover> = forwardRef((_, ref) => {
 

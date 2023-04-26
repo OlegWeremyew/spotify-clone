@@ -1,11 +1,6 @@
 import {FC} from "react";
-
-export interface IMenuItem {
-  children: string
-  onMouseEnter: () => void,
-  classes?: string
-  onClick?: () => void
-}
+import {IMenuItem} from "./types";
+import {BaseButton} from "../../../../common";
 
 export const PlaylistContextMenuItem: FC<IMenuItem> = (
   {
@@ -18,13 +13,13 @@ export const PlaylistContextMenuItem: FC<IMenuItem> = (
 
   return (
     <li onMouseEnter={() => closePreviousSubmenuIfOpen()}>
-      <button
+      <BaseButton
         type="button"
-        className={`w-full p-3 text-left hover:text-white hover:bg-[#3e3e3e] cursor-default ${classes}`}
+        classes={`w-full p-3 text-left hover:text-white hover:bg-[#3e3e3e] cursor-default ${classes}`}
         onClick={handleClick}
       >
         {label}
-      </button>
+      </BaseButton>
     </li>
   );
 }

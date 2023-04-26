@@ -1,16 +1,12 @@
 import {FC} from "react";
+import {IListCover} from "./types";
 
-export interface IListCover {
-    url: string
-}
+export const PlaylistCover: FC<IListCover> = ({url}) => (
+  <img
+    src={url}
+    className="rounded shadow-lg"
+    alt={url}
+    title={url}
+  />
+);
 
-export const PlaylistCover: FC<IListCover> = ({ url }) => {
-    return (
-        <img
-            src={url}
-            className="rounded shadow-lg"
-            alt={url}
-            title={url}
-        />
-    );
-}

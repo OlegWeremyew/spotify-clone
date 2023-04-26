@@ -1,14 +1,9 @@
-import {FC, ForwardedRef, forwardRef, useRef} from "react";
+import {FC, forwardRef, useRef} from "react";
 import {PlaylistContextMenuItem} from "./PlaylistContextMenuItem";
 import {SubMenuItem} from "../types";
 import {Nullable} from "../../../../types";
 import {PlaylistContextMenuItemWithSubmenu} from "./PlaylistContextMenuItemWithSubmenu";
-
-export interface IContextMenu {
-  menuItems: Nullable<SubMenuItem[]>
-  classes: string
-  ref: ForwardedRef<HTMLUListElement>
-}
+import {IContextMenu} from "./types";
 
 export const PlaylistContextMenu: FC<IContextMenu> = forwardRef((
   {

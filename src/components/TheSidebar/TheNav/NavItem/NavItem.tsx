@@ -1,14 +1,8 @@
-import {FC, ReactNode, MouseEvent, useRef} from "react";
+import {FC, MouseEvent, useRef} from "react";
 import {Nullable} from "../../../../types";
+import {INavItemType} from "./types";
 
-type NavItemType = {
-  classes: string,
-  icon: ReactNode,
-  children: string,
-  onClick: (target: Nullable<HTMLSpanElement>) => void,
-}
-
-export const NavItem: FC<NavItemType> = (
+export const NavItem: FC<INavItemType> = (
   {
     classes,
     icon,

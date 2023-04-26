@@ -1,7 +1,6 @@
 import {useEffect} from "react";
 import {Nullable} from "../../types";
-
-export type EventNameType = 'keydown' | 'keyup' | 'mousedown' | 'resize' | 'wheel'
+import {EventNameType} from "./types";
 
 export const useEvent = (
   name: EventNameType,

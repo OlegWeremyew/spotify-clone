@@ -2,11 +2,7 @@ import {FC} from "react";
 import {TheFooter} from "./TheFooter";
 import {TheLogo} from "./TheLogo";
 import {TheNav} from "./TheNav";
-import {Nullable} from "../../types";
-
-export interface ITheSidebar {
-  showPopover: (title: string, description: string, target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null) => void
-}
+import {ITheSidebar} from "./types";
 
 export const TheSidebar: FC<ITheSidebar> = ({showPopover}) => {
   return (

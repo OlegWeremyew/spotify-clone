@@ -1,6 +1,6 @@
-import {TimeoutType} from "../types";
+import {DebounceType} from "../types";
 
-let debounceTimer: string | number | TimeoutType = undefined
+let debounceTimer: DebounceType = undefined
 
 export function debounce(callback: Function, delay: number): void {
   clearTimeout(debounceTimer)

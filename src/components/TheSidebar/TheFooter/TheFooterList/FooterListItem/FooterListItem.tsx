@@ -1,10 +1,7 @@
 import {FC} from "react";
+import {IListItem} from "./types";
 
-type Props = {
-  children: string
-}
-
-export const FooterListItem: FC<Props> = ({children: label}) => {
+export const FooterListItem: FC<IListItem> = ({children: label}) => {
   return (
     <li>
       <a href="/GitHub/spotify/public" className="text-[11px] hover:underline py-2">
