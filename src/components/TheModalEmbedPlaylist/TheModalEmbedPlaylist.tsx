@@ -20,4 +20,3 @@ export const TheModalEmbedPlaylist: FC<IPlaylist> = ({onClose: handleClose}) => 
     </div>
   </BaseModal>
 );
-

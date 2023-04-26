@@ -3,6 +3,7 @@ import {useRef, useState} from "react";
 import {BasePopover, BaseToast} from "./components/common";
 import {Nullable, OffsetType} from "./types";
 import {useEvent} from "./hooks/useEvent/useEvent";
+import {Events} from "./enums";
 
 export const App = () => {
 
@@ -19,7 +20,7 @@ export const App = () => {
     ) => void,
   }>>(null)
 
-  useEvent('wheel', handleScrolling, true, contentWrapperRef.current)
+  useEvent(Events.WHEEL, handleScrolling, true, contentWrapperRef.current)
 
   const toggleScrolling = (isEnable: boolean): void => {
     setIsScrollingEnabled(isEnable)

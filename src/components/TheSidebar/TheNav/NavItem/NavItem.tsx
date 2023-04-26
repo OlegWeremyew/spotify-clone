@@ -1,5 +1,5 @@
 import {FC, MouseEvent, useRef} from "react";
-import {Nullable} from "../../../../types";
+import {Nullable} from "types";
 import {INavItemType} from "./types";
 
 export const NavItem: FC<INavItemType> = (

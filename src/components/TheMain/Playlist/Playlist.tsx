@@ -1,15 +1,16 @@
 import {FC, MouseEvent, forwardRef, useState, useLayoutEffect} from "react";
-import {useMenu} from "../../../hooks/useMenu";
+import {useMenu} from "hooks/useMenu";
 import {PlaylistCover} from "./PlaylistCover";
 import {PlaylistButtonPlay} from "./PlaylistButtonPlay";
 import {PlaylistTitle} from "./PlaylistTitle";
 import {PlaylistDescription} from "./PlaylistDescription";
 import {PlaylistContextMenu} from "./PlaylistContextMenu";
 import {IList, SubMenuItem} from "./types";
-import {useEvent} from "../../../hooks/useEvent/useEvent";
+import {useEvent} from "hooks/useEvent/useEvent";
 import {TheModalRecommendations} from "../../TheModalRecommendations";
-import {useModal} from "../../../hooks/useModal/useModal";
+import {useModal} from "hooks/useModal/useModal";
 import {TheModalEmbedPlaylist} from "../../TheModalEmbedPlaylist";
+import {Events} from "enums";
 
 export const Playlist: FC<IList> = forwardRef((
   {
@@ -76,8 +77,8 @@ export const Playlist: FC<IList> = forwardRef((
   const embedPlaylistModal = useModal();
   const recommendationsModal = useModal();
 
-  useEvent('keydown', handleAltKeydown, menu.isOpen)
-  useEvent('keyup', handleAltKeyup, menu.isOpen)
+  useEvent(Events.KEYDOWN, handleAltKeydown, menu.isOpen)
+  useEvent(Events.KEYUP, handleAltKeyup, menu.isOpen)
 
   const bgClasses = menu.isOpen
     ? 'bg-[#272727]'

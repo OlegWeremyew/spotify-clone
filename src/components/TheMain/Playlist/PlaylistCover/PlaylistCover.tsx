@@ -9,4 +9,3 @@ export const PlaylistCover: FC<IListCover> = ({url}) => (
     title={url}
   />
 );
-

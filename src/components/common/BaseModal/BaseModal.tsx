@@ -1,15 +1,16 @@
 import {XMarkIcon} from '@heroicons/react/24/outline';
 import {FC, useEffect, useRef, MouseEvent, ReactElement} from "react";
-import {Nullable} from "../../../types";
-import {useEvent} from "../../../hooks/useEvent/useEvent";
+import {Nullable} from "types";
+import {useEvent} from "hooks/useEvent/useEvent";
 import ReactDOM from "react-dom";
 import {IBaseModal} from "./types";
+import {Events} from "enums";
 
 export const BaseModal: FC<IBaseModal> = ({onClose: handleClose, children, classes}): ReactElement => {
 
   const ref = useRef<Nullable<HTMLDivElement>>(null);
   const contentRef = useRef<Nullable<HTMLDivElement>>(null);
-  useEvent('keydown', handleEsc)
+  useEvent(Events.KEYDOWN, handleEsc)
 
   const animate = (isClosing: boolean = false): void => {
     ref?.current?.classList.toggle('opacity-0', isClosing);

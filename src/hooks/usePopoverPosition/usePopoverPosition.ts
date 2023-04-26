@@ -1,9 +1,10 @@
 import {Nullable, OffsetType, TimeoutType} from "../../types";
 import {RefObject, useRef, useState} from "react";
 import {MIN_DESKTOP_WIDTH} from "../../constants";
-import {debounce} from "../../utils/debounce";
+import {debounce} from "utils/debounce";
 import {useEvent} from "../useEvent/useEvent";
 import {ReturnType} from "./types";
+import {Events} from "../../enums";
 
 const isCurrentWindowWidthSmall = (): boolean => window.innerWidth < MIN_DESKTOP_WIDTH
 const isCurrentWindowWidthBig = (): boolean => window.innerWidth >= MIN_DESKTOP_WIDTH
@@ -31,7 +32,7 @@ export const usePopoverPosition = (ref: Nullable<RefObject<HTMLDivElement>>, scr
 
   const debounceResize = debounce.bind(null, handleResize, 300)
 
-  useEvent('resize', debounceResize, true, window)
+  useEvent(Events.RESIZE, debounceResize, true, window)
 
   const calculateTargetOffset = (target: Nullable<HTMLSpanElement>): OffsetType => {
     if (!target) return null

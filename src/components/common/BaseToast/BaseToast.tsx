@@ -1,5 +1,5 @@
 import React, {FC, forwardRef, useImperativeHandle, useRef, useState} from 'react';
-import {TimeoutType} from "../../../types";
+import {TimeoutType} from "types";
 import {IBaseToast} from "./types";
 
 export const BaseToast: FC<IBaseToast> = forwardRef((props, ref) => {

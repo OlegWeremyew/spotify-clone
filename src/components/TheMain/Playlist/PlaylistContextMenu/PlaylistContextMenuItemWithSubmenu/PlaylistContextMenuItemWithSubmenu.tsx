@@ -1,10 +1,9 @@
 import {FC, useRef} from "react";
-import {useSubmenu} from "../../../../../hooks/useSubmenu";
+import {useSubmenu} from "hooks/useSubmenu";
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import {PlaylistContextMenu} from "../PlaylistContextMenu";
-import {Nullable} from "../../../../../types";
+import {Nullable} from "types";
 import {IMenuItemWithSubmenu} from "./types";
-import {BaseButton} from "../../../../common";
 
 export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = (
   {
@@ -27,12 +26,12 @@ export const PlaylistContextMenuItemWithSubmenu: FC<IMenuItemWithSubmenu> = (
       onMouseEnter={submenu.open}
       onMouseLeave={submenu.close}
     >
-      <BaseButton
+      <button
         type="button"
-        classes={`w-full p-3 text-left hover:text-white cursor-default flex justify-between items-center ${bgClass}`}
+        className={`w-full p-3 text-left hover:text-white cursor-default flex justify-between items-center ${bgClass}`}
       >
         {label} <ChevronRightIcon className="h-4 w-4"/>
-      </BaseButton>
+      </button>
       {submenu.isOpen && (
         <PlaylistContextMenu
           ref={refMock}

@@ -1,5 +1,5 @@
-import {SubMenuItem} from "../../components/TheMain/Playlist/types";
-import {Nullable, TimeoutType} from "../../types";
+import {SubMenuItem} from "components/TheMain/Playlist/types";
+import {Nullable, TimeoutType} from "types";
 import {MutableRefObject, useEffect, useRef, useState} from "react";
 import {
   MenuStateType,
@@ -75,7 +75,6 @@ export const useSubmenu = (
     clearTimeout(closeTimer.current)
   }
 
-  //unmounting component
   useEffect(() => stopCloseTimer)
 
   return {

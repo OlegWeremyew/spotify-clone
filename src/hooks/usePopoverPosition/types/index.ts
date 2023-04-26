@@ -1,4 +1,4 @@
-import {Nullable, OffsetType} from "../../../types";
+import {Nullable, OffsetType} from "types";
 
 export type ReturnType = {
   move: (target: Nullable<HTMLSpanElement>, offset: OffsetType) => void

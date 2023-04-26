@@ -7,8 +7,8 @@ import {
 } from '@heroicons/react/24/outline';
 import {FC} from "react";
 import {NavItem} from "./NavItem";
-import {Nullable} from "../../../types";
-import {MIN_DESKTOP_WIDTH, MOCK_DEFAULT_FUNCTION} from "../../../constants";
+import {Nullable, OffsetType} from "types";
+import {MIN_DESKTOP_WIDTH, MOCK_DEFAULT_FUNCTION} from "constants/index";
 import {ITheNav, NavItemType} from "./types";
 
 const activeNavItemClasses =
@@ -33,7 +33,7 @@ export const TheNav: FC<ITheNav> = ({showPopover}) => {
       label: 'Your Library',
       classes: `${navItemClasses} mb-6`,
       icon: <ViewColumnsIcon className="h-6 w-6"/>,
-      action: (target: Nullable<HTMLSpanElement>) => {
+      action: (target: Nullable<HTMLSpanElement>): void => {
         showPopover(
           'Enjoy Your Library',
           'Log in to see saved songs, podcasts, artists, and playlists in Your Library.',
@@ -46,7 +46,7 @@ export const TheNav: FC<ITheNav> = ({showPopover}) => {
       label: 'Create Playlist',
       classes: navItemClasses,
       icon: <PlusCircleIcon className="h-6 w-6"/>,
-      action: (target: Nullable<HTMLSpanElement>) => {
+      action: (target: Nullable<HTMLSpanElement>): void => {
         showPopover(
           'Create a playlist',
           'Log in to create and share playlists.',
@@ -59,10 +59,10 @@ export const TheNav: FC<ITheNav> = ({showPopover}) => {
       label: 'Liked Songs',
       classes: navItemClasses,
       icon: <HeartIcon className="h-6 w-6"/>,
-      action: (target: Nullable<HTMLSpanElement>) => {
+      action: (target: Nullable<HTMLSpanElement>): void => {
         if (!target) return
 
-        let offset: { top: number, left: number } | null = null
+        let offset: OffsetType = null
 
         if (window.innerWidth >= MIN_DESKTOP_WIDTH) {
           const LEFT_SHIFT = 125

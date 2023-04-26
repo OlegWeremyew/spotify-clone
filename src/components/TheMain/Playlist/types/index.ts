@@ -13,5 +13,3 @@ export interface IList {
   toggleScrolling: (isEnable: boolean) => void
   showToast: (message: string) => void
 }
-
-

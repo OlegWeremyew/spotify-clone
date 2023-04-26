@@ -1,16 +1,17 @@
-import React, {FC, ForwardedRef, forwardRef, useImperativeHandle, useRef, useState} from 'react';
+import React, {FC, forwardRef, useImperativeHandle, useRef, useState} from 'react';
 import {BaseButton} from "../BaseButton";
-import {Nullable} from "../../../types";
-import {BasePopoverTriangle} from "../BasePopoverTriangle";
-import {usePopoverPosition} from "../../../hooks/usePopoverPosition/usePopoverPosition";
-import {useClickAway} from "../../../hooks/useClickAway/useClickAway";
+import {Nullable, OffsetType} from "types";
+import {usePopoverPosition} from "hooks/usePopoverPosition/usePopoverPosition";
+import {useClickAway} from "hooks/useClickAway/useClickAway";
 import {IBasePopover} from "./types";
+import {BasePopoverTriangle} from "components/common";
 
 export const BasePopover: FC<IBasePopover> = forwardRef((_, ref) => {
 
   const [title, setTitle] = useState<string>();
   const [description, setDescription] = useState<string>();
   const nodeRef = useRef<Nullable<HTMLDivElement>>(null);
+
   const {move, target, setTarget, isSmallScreen} = usePopoverPosition(nodeRef, hide)
   const [classes, setClasses] = useState<string>(getHiddenClasses);
 
@@ -30,7 +31,7 @@ export const BasePopover: FC<IBasePopover> = forwardRef((_, ref) => {
     return `opacity-0 ${translateClasses} pointer-events-none`
   }
 
-  const show = (title: string, description: string, nextTarget: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null): void => {
+  const show = (title: string, description: string, nextTarget: Nullable<HTMLSpanElement>, offset: OffsetType): void => {
 
     if (target === nextTarget) return
 

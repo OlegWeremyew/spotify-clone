@@ -1,7 +1,7 @@
 import {FC, forwardRef, useRef} from "react";
 import {PlaylistContextMenuItem} from "./PlaylistContextMenuItem";
 import {SubMenuItem} from "../types";
-import {Nullable} from "../../../../types";
+import {Nullable} from "types";
 import {PlaylistContextMenuItemWithSubmenu} from "./PlaylistContextMenuItemWithSubmenu";
 import {IContextMenu} from "./types";
 

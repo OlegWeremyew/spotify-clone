@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import {Nullable} from "../../../../../types";
+import {Nullable} from "types";
 
 export interface INavItemType {
   classes: string,

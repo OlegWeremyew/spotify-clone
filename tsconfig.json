@@ -7,6 +7,14 @@
       "dom.iterable",
       "esnext"
     ],
+    "paths": {
+      "components/*": ["./components/*"],
+      "constants/*": ["./constants/*"],
+      "enums/*": ["./enums/*"],
+      "hooks/*": ["./hooks/*"],
+      "types/*": ["./types/*"],
+      "utils/*": ["./utils/*"],
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

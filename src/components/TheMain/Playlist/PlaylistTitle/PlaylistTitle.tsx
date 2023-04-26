@@ -6,4 +6,3 @@ export const PlaylistTitle: FC<IListTitle> = ({title}) => (
     {title}
   </h3>
 );
-

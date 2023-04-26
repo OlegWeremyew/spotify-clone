@@ -2,7 +2,7 @@ import {MouseEvent, useRef, useState} from "react";
 import {Nullable} from "../../types";
 import {ReturnUseContextMenuType} from "./types";
 import {usePosition} from "../usePosition";
-import {SubMenuItem} from "../../components/TheMain/Playlist/types";
+import {SubMenuItem} from "components/TheMain/Playlist/types";
 import {useClickAway} from "../useClickAway/useClickAway";
 import {useEvent} from "../useEvent/useEvent";
 

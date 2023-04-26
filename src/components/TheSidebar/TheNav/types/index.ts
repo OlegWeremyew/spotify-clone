@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import {Nullable, OffsetType} from "../../../../types";
+import {Nullable, OffsetType} from "types";
 
 export type NavItemType = {
   label: string,

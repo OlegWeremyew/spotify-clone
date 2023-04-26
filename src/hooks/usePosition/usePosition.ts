@@ -1,6 +1,6 @@
 import {MutableRefObject, useLayoutEffect} from "react";
 import {ClickPositionType, ReturnUsePositionType} from "./types";
-import {Nullable} from "../../types";
+import {Nullable} from "types";
 
 const clickPosition: ClickPositionType = {
   x: 0,

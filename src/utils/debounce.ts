@@ -1,4 +1,4 @@
-import {DebounceType} from "../types";
+import {DebounceType} from "types";
 
 let debounceTimer: DebounceType = undefined
 
