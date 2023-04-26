@@ -1,21 +1,17 @@
-import {RefObject, useEffect} from "react";
+import {RefObject} from "react";
 import {Nullable} from "../../types";
+import {useEvent} from "../useEvent/useEvent";
 
 export const useClickAway = (
   ref: Nullable<RefObject<HTMLDivElement | HTMLUListElement>>,
-  handle: () => void,
+  handler: () => void,
   shouldHandle: (event: MouseEvent) => boolean = () => true,
 ): void => {
-  useEffect(() => {
+  useEvent('mousedown', handleMousedown)
 
-    function handleMousedown(event: MouseEvent): void {
-      if (shouldHandle(event) && !ref?.current?.contains(event.target as Node)) {
-        handle()
-      }
+  function handleMousedown(event: MouseEvent): void {
+    if (shouldHandle(event) && !ref?.current?.contains(event.target as Node)) {
+      handler()
     }
-
-    document.addEventListener('mousedown', handleMousedown);
-
-    return () => document.removeEventListener('mousedown', handleMousedown)
-  });
+  }
 }

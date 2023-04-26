@@ -1,35 +1,28 @@
 import {TheHeader, TheMain, TheRegistration, TheSidebar, TheSidebarOverlay} from "./components";
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import {BasePopover, BaseToast} from "./components/common";
 import {Nullable} from "./types";
-import {BaseModal} from "./components/common/BaseModal";
+import {useEvent} from "./hooks/useEvent/useEvent";
 
 export const App = () => {
 
   const [isScrollingEnabled, setIsScrollingEnabled] = useState<boolean>(true)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>();
 
-  const contentWrapperRef = useRef<HTMLDivElement | null>(null)
+  const contentWrapperRef = useRef<Nullable<HTMLDivElement>>(null)
   const toastRef = useRef<Nullable<{ show: (message: string) => void, }>>(null)
   const popoverRef = useRef<Nullable<{ show: (title: string, description: string, target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null) => void, }>>(null)
+
+  useEvent('wheel', handleScrolling, true, contentWrapperRef.current)
 
   const toggleScrolling = (isEnable: boolean): void => {
     setIsScrollingEnabled(isEnable)
   }
 
-  const handleScrolling = (event: WheelEvent): void => {
+  function handleScrolling(event: WheelEvent): void {
     if (isScrollingEnabled) return
 
     event.preventDefault()
     event.stopPropagation()
-  }
-
-  function openModal():void {
-    setIsModalOpen(true);
-  }
-
-  function closeModal():void {
-    setIsModalOpen(false);
   }
 
   function showPopover(
@@ -49,15 +42,6 @@ export const App = () => {
     toastRef.current.show(message)
   }
 
-  useEffect(() => {
-    if (!contentWrapperRef.current) return
-
-    const contentWrapper = contentWrapperRef.current
-    contentWrapper.addEventListener('wheel', handleScrolling)
-
-    return () => contentWrapper.removeEventListener('wheel', handleScrolling)
-  })
-
   return (
     <>
       <div className="flex grow overflow-auto">
@@ -71,7 +55,6 @@ export const App = () => {
           <TheMain
             toggleScrolling={toggleScrolling}
             showToast={showToast}
-            openModal={openModal}
           />
         </div>
       </div>
@@ -79,8 +62,6 @@ export const App = () => {
 
       <BaseToast ref={toastRef}/>
       <BasePopover ref={popoverRef}/>
-
-      {isModalOpen && <BaseModal onClose={closeModal} />}
     </>
   );
 }

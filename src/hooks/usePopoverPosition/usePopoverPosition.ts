@@ -1,7 +1,8 @@
 import {Nullable, TimeoutType} from "../../types";
-import {RefObject, useEffect, useRef, useState} from "react";
+import {RefObject, useRef, useState} from "react";
 import {MIN_DESKTOP_WIDTH} from "../../constants";
 import {debounce} from "../../utils/debounce";
+import {useEvent} from "../useEvent/useEvent";
 
 type ReturnType = {
   move: (target: Nullable<HTMLSpanElement>, offset: { top: number, left: number } | null) => void
@@ -22,25 +23,21 @@ export const usePopoverPosition = (ref: Nullable<RefObject<HTMLDivElement>>, scr
   const screenHasBecomeSmall = (): boolean => isCurrentWindowWidthSmall() && !isSmallScreen
   const screenHasBecomeBig = (): boolean => isCurrentWindowWidthBig() && isSmallScreen
 
-  useEffect(() => {
-    function handleResize(): void {
-      if (!screenHasBecomeSmall() && !screenHasBecomeBig()) return
+  function handleResize(): void {
+    if (!screenHasBecomeSmall() && !screenHasBecomeBig()) return
 
-      screenChangeCallback()
-      clearTimeout(changeWidthTimer.current)
+    screenChangeCallback()
+    clearTimeout(changeWidthTimer.current)
 
-      changeWidthTimer.current = setTimeout(() => {
-        setIsSmallScreen(isCurrentWindowWidthSmall)
-      }, 300)
+    changeWidthTimer.current = setTimeout(() => {
+      setIsSmallScreen(isCurrentWindowWidthSmall)
+    }, 300)
 
-    }
+  }
 
-    const debounceResize = debounce.bind(null, handleResize, 300)
+  const debounceResize = debounce.bind(null, handleResize, 300)
 
-    window.addEventListener('resize', debounceResize);
-
-    return () => window.removeEventListener('resize', debounceResize)
-  })
+  useEvent('resize', debounceResize, true, window)
 
   const calculateTargetOffset = (target: Nullable<HTMLSpanElement>): { top: number, left: number } | null => {
     if (!target) return null

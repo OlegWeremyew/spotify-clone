@@ -68,10 +68,9 @@ export const playlists: PlaylistsType[] = [
 export interface IMain {
   toggleScrolling: (isEnable: boolean) => void
   showToast: (message: string) => void
-  openModal: () => void
 }
 
-export const TheMain: FC<IMain> = ({toggleScrolling, showToast, openModal}) => {
+export const TheMain: FC<IMain> = ({toggleScrolling, showToast}) => {
   return (
     <main className="text-white relative">
       <div className="h-[275px] bg-gradient-to-b from-[#1f1f1f] to-[#121212] absolute w-full"></div>
@@ -98,7 +97,6 @@ export const TheMain: FC<IMain> = ({toggleScrolling, showToast, openModal}) => {
                 {...playlist}
                 toggleScrolling={toggleScrolling}
                 showToast={showToast}
-                openModal={openModal}
               />
             ))}
           </div>

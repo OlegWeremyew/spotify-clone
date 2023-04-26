@@ -1,4 +1,4 @@
-import {FC, MouseEvent, forwardRef, useState, useEffect, useLayoutEffect} from "react";
+import {FC, MouseEvent, forwardRef, useState, useLayoutEffect} from "react";
 import {useMenu} from "../../../hooks/useMenu";
 import {PlaylistCover} from "./PlaylistCover";
 import {PlaylistButtonPlay} from "./PlaylistButtonPlay";
@@ -6,6 +6,10 @@ import {PlaylistTitle} from "./PlaylistTitle";
 import {PlaylistDescription} from "./PlaylistDescription";
 import {PlaylistContextMenu} from "./PlaylistContextMenu";
 import {SubMenuItem} from "./types";
+import {useEvent} from "../../../hooks/useEvent/useEvent";
+import {TheModalRecommendations} from "../../TheModalRecommendations";
+import {useModal} from "../../../hooks/useModal/useModal";
+import {TheModalEmbedPlaylist} from "../../TheModalEmbedPlaylist";
 
 export interface IList {
   classes: string
@@ -14,7 +18,6 @@ export interface IList {
   coverUrl: string
   toggleScrolling: (isEnable: boolean) => void
   showToast: (message: string) => void
-  openModal: () => void
 }
 
 export const Playlist: FC<IList> = forwardRef((
@@ -25,7 +28,6 @@ export const Playlist: FC<IList> = forwardRef((
     description,
     toggleScrolling,
     showToast,
-    openModal
   }
 ) => {
   const generateMenuItems = (isAlternate: boolean = false): SubMenuItem[] => {
@@ -55,6 +57,10 @@ export const Playlist: FC<IList> = forwardRef((
           {
             label: 'Embed playlist',
             subMenuItems: null,
+            action: () => {
+              menu.close();
+              embedPlaylistModal.open();
+            },
           },
         ],
       },
@@ -63,7 +69,7 @@ export const Playlist: FC<IList> = forwardRef((
         subMenuItems: null,
         action: () => {
           menu.close();
-          openModal();
+          recommendationsModal.open();
         },
       },
       {
@@ -74,7 +80,13 @@ export const Playlist: FC<IList> = forwardRef((
   }
 
   const [menuItems, setMenuItems] = useState<SubMenuItem[]>(generateMenuItems)
+
   const menu = useMenu(menuItems)
+  const embedPlaylistModal = useModal();
+  const recommendationsModal = useModal();
+
+  useEvent('keydown', handleAltKeydown, menu.isOpen)
+  useEvent('keyup', handleAltKeyup, menu.isOpen)
 
   const bgClasses = menu.isOpen
     ? 'bg-[#272727]'
@@ -82,26 +94,13 @@ export const Playlist: FC<IList> = forwardRef((
 
   useLayoutEffect(() => toggleScrolling(!menu.isOpen), [menu.isOpen])
 
-  useEffect(() => {
-    if (!menu.isOpen) return
+  function handleAltKeydown({key}: KeyboardEvent): void {
+    if (key === 'Alt') setMenuItems(generateMenuItems(true));
+  }
 
-    function handleAltKeydown({key}: KeyboardEvent): void {
-      if (key === 'Alt') setMenuItems(generateMenuItems(true));
-    }
-
-    function handleAltKeyup({key}: KeyboardEvent): void {
-      if (key === 'Alt') setMenuItems(generateMenuItems(false));
-    }
-
-    document.addEventListener('keydown', handleAltKeydown);
-    document.addEventListener('keyup', handleAltKeyup);
-
-    return () => {
-      document.removeEventListener('keydown', handleAltKeydown);
-      document.removeEventListener('keyup', handleAltKeyup);
-    };
-  });
-
+  function handleAltKeyup({key}: KeyboardEvent): void {
+    if (key === 'Alt') setMenuItems(generateMenuItems(false));
+  }
 
   return (
     <a
@@ -124,7 +123,13 @@ export const Playlist: FC<IList> = forwardRef((
           classes="fixed divide-y divide-[#3e3e3e]"
         />
       )}
-    </a>
 
+      {recommendationsModal.isOpen && (
+        <TheModalRecommendations onClose={recommendationsModal.close}/>
+      )}
+      {embedPlaylistModal.isOpen && (
+        <TheModalEmbedPlaylist onClose={embedPlaylistModal.close}/>
+      )}
+    </a>
   );
 })
